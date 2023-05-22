@@ -66,7 +66,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Adress");
+                    b.ToTable("Adress", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Category", b =>
@@ -88,7 +88,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.City", b =>
@@ -105,7 +105,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Cities");
+                    b.ToTable("Cities", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.County", b =>
@@ -127,7 +127,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("CityId");
 
-                    b.ToTable("Counties");
+                    b.ToTable("Counties", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Department", b =>
@@ -147,7 +147,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.District", b =>
@@ -169,7 +169,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("CountyId");
 
-                    b.ToTable("Districts");
+                    b.ToTable("Districts", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.OdemeTur", b =>
@@ -186,7 +186,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OdemeTurleri");
+                    b.ToTable("OdemeTurleri", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.OrderDetail", b =>
@@ -215,7 +215,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails");
+                    b.ToTable("OrderDetails", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.OrderHeader", b =>
@@ -262,7 +262,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("OdemeTurId");
 
-                    b.ToTable("OrderHeaders");
+                    b.ToTable("OrderHeaders", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Product", b =>
@@ -296,7 +296,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.ShoppingKart", b =>
@@ -322,7 +322,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("ShoppingKarts");
+                    b.ToTable("ShoppingKarts", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.Store", b =>
@@ -366,7 +366,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.ToTable("Stores");
+                    b.ToTable("Stores", (string)null);
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.StoreAdress", b =>
@@ -395,7 +395,7 @@ namespace IvaETicaret.Migrations
 
                     b.HasIndex("StoreId");
 
-                    b.ToTable("StoreAdresses");
+                    b.ToTable("StoreAdresses", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

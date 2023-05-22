@@ -13,9 +13,6 @@ namespace IvaETicaret.Models
         public double Price { get; set; }
         public string? Image { get; set; }
         public bool Active { get; set; }
-        public int StoreId { get; set; }
-        [ForeignKey(nameof(StoreId))]
-        public Store? Store { get; set; }
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
         public Category? Category { get; set; }

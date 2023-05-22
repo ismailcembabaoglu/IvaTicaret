@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace IvaETicaret.Areas.Admin.Controllers
 {
@@ -21,8 +22,24 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // GET: Admin/Category
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Categories.Include(c => c.Store);
-            return View(await applicationDbContext.ToListAsync());
+            if (User.IsInRole(Diger.Role_Admin))
+            {
+                var applicationDbContext = _context.Categories.Include(c => c.Store);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            if (User.IsInRole(Diger.Role_Bayi))
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                var applicationDbContextconte = _context.Categories.Include(c => c.Store).Where(c => c.StoreId == userId.StoreId);
+                return View(await applicationDbContextconte.ToListAsync());
+            }
+            else
+            {
+                return View();
+            }
+           
         }
 
         // GET: Admin/Category/Details/5
@@ -47,7 +64,6 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // GET: Admin/Category/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
             return View();
         }
 
@@ -58,6 +74,10 @@ namespace IvaETicaret.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,DepartmentId")] Category category)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            category.StoreId = userId.StoreId.Value;
             if (ModelState.IsValid)
             {
                 _context.Add(category);
@@ -81,7 +101,6 @@ namespace IvaETicaret.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", category.Store);
             return View(category);
         }
 
@@ -117,7 +136,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", category.Store);
+           
             return View(category);
         }
 

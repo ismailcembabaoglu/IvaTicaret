@@ -19,10 +19,7 @@
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
                 <br />
-                <div class="form-group">
-                    <label asp-for="StoreId" class="control-label">Bölüm</label>
-                    <select asp-for="StoreId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                </div>
+            
                 <div class="form-group">
                     <input type="submit" value="Kaydet" class="btn btn-success" />
                     <a asp-action="Index" class="btn btn-primary">Listeye Geri Dön</a>
