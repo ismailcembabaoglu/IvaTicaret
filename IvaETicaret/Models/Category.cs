@@ -12,6 +12,6 @@ namespace IvaETicaret.Models
         public int StoreId { get; set; }
         [ForeignKey("StoreId")]
         public Store? Store { get; set; }
-
+        public ICollection<Product>? Products { get; set; }
     }
 }

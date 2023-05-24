@@ -9,6 +9,8 @@ namespace IvaETicaret.Models
         public int Id { get; set; }
 
         public string Name { get; set; }
+        public int? Keye { get; set; }
+        public int? IlKey { get; set; }
         public int CountyId { get; set; }
         [ForeignKey(nameof(CountyId))]
         public virtual County? County { get; set; }

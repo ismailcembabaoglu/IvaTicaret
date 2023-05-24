@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace IvaETicaret.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230521022714_mig_1")]
-    partial class mig_1
+    [Migration("20230523233312_mig_2")]
+    partial class mig_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.15")
+                .HasAnnotation("ProductVersion", "6.0.16")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -101,6 +101,9 @@ namespace IvaETicaret.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("Keye")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,6 +122,9 @@ namespace IvaETicaret.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Keye")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -161,6 +167,12 @@ namespace IvaETicaret.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("CountyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("IlKey")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Keye")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -349,6 +361,9 @@ namespace IvaETicaret.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -361,6 +376,10 @@ namespace IvaETicaret.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TaxOffice")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxPlate")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -735,7 +754,7 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.Product", b =>
                 {
                     b.HasOne("IvaETicaret.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -842,6 +861,11 @@ namespace IvaETicaret.Migrations
             modelBuilder.Entity("IvaETicaret.Models.Adress", b =>
                 {
                     b.Navigation("OrderHeaders");
+                });
+
+            modelBuilder.Entity("IvaETicaret.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("IvaETicaret.Models.City", b =>

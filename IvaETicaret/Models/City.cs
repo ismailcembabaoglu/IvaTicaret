@@ -7,6 +7,7 @@ namespace IvaETicaret.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        public int? Keye { get; set; }
         public ICollection<County>? Counties { get; set; }
     }
 }

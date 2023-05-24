@@ -62,7 +62,8 @@ namespace IvaETicaret.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -209,6 +210,7 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -233,6 +235,8 @@ namespace IvaETicaret.Migrations
                     TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaxOffice = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ContractConfirmation = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    TaxPlate = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true)
@@ -254,6 +258,8 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Key = table.Column<int>(type: "int", nullable: true),
+                    IlKey = table.Column<int>(type: "int", nullable: true),
                     CountyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

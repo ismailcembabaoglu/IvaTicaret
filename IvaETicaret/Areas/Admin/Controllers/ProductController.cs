@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace IvaETicaret.Areas.Admin.Controllers
 {
@@ -23,8 +24,21 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // GET: Admin/Product
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Products.Include(p => p.Category);
-            return View(await applicationDbContext.ToListAsync());
+            if (User.IsInRole(Diger.Role_Admin))
+            {
+                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c=>c.Store);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            if (User.IsInRole(Diger.Role_Bayi))
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c => c.Store).Where(c=>c.Category.StoreId==userId.StoreId);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            return View();
+          
         }
 
         // GET: Admin/Product/Details/5
@@ -49,7 +63,10 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // GET: Admin/Product/Create
         public IActionResult Create()
         {
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c=>c.StoreId==userId.StoreId), "Id", "Name");
             return View();
         }
 
@@ -103,7 +120,10 @@ namespace IvaETicaret.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c=>c.StoreId==userId.StoreId), "Id", "Name", product.CategoryId);
             return View(product);
         }
 
