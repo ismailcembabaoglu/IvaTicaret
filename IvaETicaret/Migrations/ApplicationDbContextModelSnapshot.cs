@@ -53,8 +53,8 @@ namespace IvaETicaret.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("TamAdres")
                         .IsRequired()
@@ -81,8 +81,8 @@ namespace IvaETicaret.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -339,11 +339,9 @@ namespace IvaETicaret.Migrations
 
             modelBuilder.Entity("IvaETicaret.Models.Store", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CompanyName")
                         .IsRequired()
@@ -405,8 +403,8 @@ namespace IvaETicaret.Migrations
                     b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -641,8 +639,8 @@ namespace IvaETicaret.Migrations
                     b.Property<string>("PostaKodu")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("StoreId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("StoreId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Surname")
                         .IsRequired()

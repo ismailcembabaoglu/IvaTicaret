@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
@@ -30,19 +31,20 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _db;
-        public List<SelectListItem> Branches;
+        public List<SelectListItem> Stores;
 
-
+        public bool Sec { get; set; }
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            IUserStore<IdentityUser> userStore,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext db
+        UserManager<IdentityUser> userManager,
+        IUserStore<IdentityUser> userStore,
+        SignInManager<IdentityUser> signInManager,
+        ILogger<RegisterModel> logger,
+        IEmailSender emailSender,
+        RoleManager<IdentityRole> roleManager,
+        ApplicationDbContext db
+     
 
-            )
+        )
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -52,7 +54,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _roleManager = roleManager;
             _db = db;
-
+    
         }
 
 
@@ -118,15 +120,21 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
             public string? PostaKodu { get; set; }
             public string? TelNo { get; set; }
             public string Role { get; set; }
-            public int? StoreId { get; set; }
-            [ForeignKey("StoreId")]
-            public Store? Store { get; set; }
+            public Guid? StoreId { get; set; }
             public IEnumerable<SelectListItem> RoleList { get; set; }
+            public bool secinmk { get; set; }
         }
 
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(bool secim, string? message, string returnUrl = null)
         {
+            if (!string.IsNullOrEmpty(message))
+            {
+                ModelState.AddModelError(string.Empty, message);
+            }
+
+            Sec = secim;
+            
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             Input = new InputModel()
@@ -137,17 +145,38 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     Value = u
                 })
             };
+           
             var data = await _db.Stores.ToListAsync();
-            Branches = new List<SelectListItem>();
-            foreach (var item in data)
+            if (Sec == false)
             {
-                Branches.Add(new SelectListItem { Text = item.CompanyName, Value = item.Id.ToString() });
+                Stores = new List<SelectListItem>();
+                foreach (var item in data)
+                {
+                    Stores.Add(new SelectListItem { Text = item.CompanyName, Value = item.Id.ToString() });
+                }
             }
+
             //  Branches = new SelectList(await _db.Branches.ToListAsync(), nameof(Branch.Id).ToString(), nameof(Branch.CompanyName));
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+            if (Input.StoreId != null && !User.IsInRole(Diger.Role_Admin))
+            {
+                var list = _db.Stores.Where(c => c.Id == Input.StoreId).ToList();
+                if (list.Count > 0)
+                {
+                    Sec = true;
+                }
+                else
+                {
+                    return RedirectToPage("Register", new { secim = true, message = "Mağaza Keyiniz Yanlış Lütfen Mailinizdeki Keyi Giriniz." });
+                }
+
+
+            }
+         
+
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
@@ -161,6 +190,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     Name = Input.Name,
                     Surname = Input.Surname,
                     Role = Input.Role,
+                   
 
                 };
                 //if (!user.BranchId.HasValue)
@@ -193,14 +223,26 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     {
                         await _roleManager.CreateAsync(new IdentityRole(Diger.Role_Bayi));
                     }
-                    if (user.Role == null)
+                    if (user.Role == null && Input.StoreId == null && Sec == false)
                     {
                         await _userManager.AddToRoleAsync(user, Diger.Role_User);
                     }
                     else
                     {
+                        if (Sec == true && Input.StoreId != null)
+                        {
+                          
+                                await _userManager.AddToRoleAsync(user, Diger.Role_Bayi);
+                           
 
-                        await _userManager.AddToRoleAsync(user, user.Role);
+
+                        }
+
+                        else
+                        {
+                            await _userManager.AddToRoleAsync(user, user.Role);
+                        }
+
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);

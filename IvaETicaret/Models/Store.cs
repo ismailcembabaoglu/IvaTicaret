@@ -6,7 +6,7 @@ namespace IvaETicaret.Models
     public class Store
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public string? RootName { get; set; }
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }

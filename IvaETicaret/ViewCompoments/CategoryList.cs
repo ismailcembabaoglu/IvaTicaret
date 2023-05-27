@@ -10,7 +10,7 @@ namespace IvaETicaret.ViewCompoments
         {
             _db = db;
         }
-        public IViewComponentResult Invoke(int id)
+        public IViewComponentResult Invoke(Guid id)
         {
             var category = _db.Categories.Where(c => c.StoreId == id).ToList();
             return View(category);

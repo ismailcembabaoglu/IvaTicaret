@@ -27,7 +27,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 if (ara.ToList().Count() > 0)
                 {
                     var bag = _db.Categories.FirstOrDefault(c => c.Id == ara.FirstOrDefault().CategoryId);
-                    var department = _db.Departments.FirstOrDefault(c => c.Id == bag.StoreId);
+                    var department = _db.Departments.FirstOrDefault(c => c.Id == bag.Id);
                     ViewBag.Id = department.Id;
                 }
                 else
@@ -53,7 +53,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             return View(department);
         }
 
-        public IActionResult Category(int id, int p = 1)
+        public IActionResult Category(Guid id, int p = 1)
         {
             const int pageSize = 1;
             var category = _db.Categories.FirstOrDefault(c => c.StoreId == id);
@@ -139,7 +139,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
             return View(scart);
         }
-        public IActionResult CategoryDetails(int? Id, int departmentId, int p = 1)
+        public IActionResult CategoryDetails(int? Id, Guid StoreId, int p = 1)
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -154,13 +154,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 var product = _db.Products.Where(i => i.CategoryId == Id);
 
                 ViewBag.KategoriId = Id;
-                ViewBag.DepartmentId = departmentId;
+                ViewBag.DepartmentId = StoreId;
                 return View(product.ToPagedList(p, 40));
             }
             else
             {
                 PagedList<Product> product = new PagedList<Product>(null, p, 40);
-                var categori = _db.Categories.Where(c => c.StoreId == departmentId).ToList();
+                var categori = _db.Categories.Where(c => c.StoreId == StoreId).ToList();
                 foreach (var item in categori)
                 {
                     product = new PagedList<Product>(_db.Products.Where(i => i.CategoryId == item.Id).ToList(), p, 40);
@@ -170,7 +170,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
 
                 ViewBag.KategoriId = Id;
-                ViewBag.DepartmentId = departmentId;
+                ViewBag.DepartmentId = StoreId;
                 return View(product.ToPagedList(p, 40));
             }
 

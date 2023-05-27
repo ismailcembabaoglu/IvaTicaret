@@ -7,7 +7,7 @@ namespace IvaETicaret.Models
     {
         [Key]
         public int Id { get; set; }
-        public int StoreId { get; set; }
+        public Guid StoreId { get; set; }
         [ForeignKey("StoreId")]
         public Store? Store { get; set; }
         public int CityId { get; set; }

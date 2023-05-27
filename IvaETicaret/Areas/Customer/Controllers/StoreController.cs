@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using IvaETicaret.Data;
 using IvaETicaret.Models;
+using System.Security.Claims;
+using IvaETicaret.Email;
+using System.Text.Encodings.Web;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -28,7 +31,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
 
         // GET: Customer/Store/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null || _context.Stores == null)
             {
@@ -62,7 +65,10 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 _context.Add(store);
+                SenderEmail.Gonder("İva Keyiniz", $"İva mağaza Keyiniz='{store.Id}'", store.Email
+                       );
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -71,20 +77,34 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
 
         // GET: Customer/Store/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
-            if (id == null || _context.Stores == null)
-            {
-                return NotFound();
-            }
 
-            var store = await _context.Stores.FindAsync(id);
-            if (store == null)
+          
+            if (User.IsInRole(Diger.Role_Bayi)&& !id.HasValue)
             {
-                return NotFound();
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var storeId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault().StoreId;
+                var store = await _context.Stores.FindAsync(storeId);
+                if (store == null)
+                {
+                    return NotFound();
+                }
+                ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
+                return View(store);
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
-            return View(store);
+            else if (User.IsInRole(Diger.Role_Admin))
+            {
+                var store = await _context.Stores.FindAsync(id);
+                if (store == null)
+                {
+                    return NotFound();
+                }
+                ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
+                return View(store);
+            }
+            return View();
         }
 
         // POST: Customer/Store/Edit/5
@@ -92,7 +112,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,RootName,CompanyName,TaxNumber,TaxOffice,ContractConfirmation,IsActive,TaxPlate,PhoneNumber,Email,DepartmentId")] Store store)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,RootName,CompanyName,TaxNumber,TaxOffice,ContractConfirmation,IsActive,TaxPlate,PhoneNumber,Email,DepartmentId")] Store store)
         {
             if (id != store.Id)
             {
@@ -124,7 +144,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
 
         // GET: Customer/Store/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null || _context.Stores == null)
             {
@@ -161,7 +181,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool StoreExists(int id)
+        private bool StoreExists(Guid id)
         {
           return (_context.Stores?.Any(e => e.Id == id)).GetValueOrDefault();
         }

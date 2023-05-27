@@ -9,7 +9,7 @@ namespace IvaETicaret.Models
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int StoreId { get; set; }
+        public Guid StoreId { get; set; }
         [ForeignKey("StoreId")]
         public Store? Store { get; set; }
         public ICollection<Product>? Products { get; set; }

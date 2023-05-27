@@ -16,7 +16,7 @@ namespace IvaETicaret.Models
         public string? PostaKodu { get; set; }
         [NotMapped]
         public string Role { get; set; }
-        public int? StoreId { get; set; }
+        public Guid? StoreId { get; set; }
 
 
     }

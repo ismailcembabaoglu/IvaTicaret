@@ -38,6 +38,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                         </li>
                         <li class="nav-item">
+                           
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                         @if (User.Identity.IsAuthenticated && User.IsInRole(Diger.Role_User)||User.IsInRole(Diger.Role_Birey))
@@ -80,7 +81,7 @@
                         <div class="dropdown">
 
                             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Admin
+                                Yönetim Paneli
                             </button>
                             <ul class="dropdown-menu">
                                 @if (User.IsInRole(Diger.Role_Admin))
@@ -91,12 +92,14 @@
                                     <li><a class="dropdown-item" asp-area="Customer" asp-controller="City" action="Index">İl</a></li>
                                     <li><a class="dropdown-item" asp-area="Customer" asp-controller="County" action="Index">İlçe</a></li>
                                     <li><a class="dropdown-item" asp-area="Customer" asp-controller="District" action="Index">Mahalle</a></li>
-                                }
-                                @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_Bayi))
-                                {
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" action="Index">Kullanıcılar</a></li>
                                     <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" action="Index">Siparişler</a></li>
-
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Store" action="Index">Mağzalar</a></li>
+                                }
+                               @if (User.IsInRole(Diger.Role_Bayi))
+                                {
+                                    <li> <a asp-area="Customer" asp-controller="Store" asp-action="Edit" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Mağazam</a></li>
+                                   
                                 }
 
                             </ul>

@@ -1,84 +1,122 @@
 ﻿@model IvaETicaret.Models.Store
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h1>Edit</h1>
-
-<h4>Store</h4>
+<br />
+<h4>Mağaza Düzenle</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="row">
+        <div class="col-md-6">
+
             <div class="form-group">
-                <label asp-for="RootName" class="control-label"></label>
+                <label asp-for="RootName" class="control-label">Yetkili Kişi</label>
                 <input asp-for="RootName" class="form-control" />
                 <span asp-validation-for="RootName" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="CompanyName" class="control-label"></label>
+                <label asp-for="CompanyName" class="control-label">Şirket Adı</label>
                 <input asp-for="CompanyName" class="form-control" />
                 <span asp-validation-for="CompanyName" class="text-danger"></span>
             </div>
+        </div>
+
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="TaxNumber" class="control-label"></label>
+                <label asp-for="TaxNumber" class="control-label">Vergi No</label>
                 <input asp-for="TaxNumber" class="form-control" />
                 <span asp-validation-for="TaxNumber" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="TaxOffice" class="control-label"></label>
+                <label asp-for="TaxOffice" class="control-label">Vergi Dairesi</label>
                 <input asp-for="TaxOffice" class="form-control" />
                 <span asp-validation-for="TaxOffice" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group form-check">
                 <label class="form-check-label">
                     <input class="form-check-input" asp-for="ContractConfirmation" /> @Html.DisplayNameFor(model => model.ContractConfirmation)
                 </label>
             </div>
+        </div>
+        <div class="col-md-6">
             @if (User.IsInRole(Diger.Role_Admin))
             {
-                   <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                    </label>
+                </div>
             }
-         
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="TaxPlate" class="control-label"></label>
                 <input asp-for="TaxPlate" class="form-control" />
                 <span asp-validation-for="TaxPlate" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label asp-for="PhoneNumber" class="control-label"></label>
                 <input asp-for="PhoneNumber" class="form-control" />
                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
+
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label asp-for="Email" class="control-label">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="DepartmentId" class="control-label"></label>
+                <label asp-for="DepartmentId" class="control-label">Bölüm</label>
                 <select asp-for="DepartmentId" class="form-control" asp-items="ViewBag.DepartmentId"></select>
-                <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
-            <a asp-area="Customer" asp-controller="StoreAdress" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary">Adres Ekle</a>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
-</div>
+    <br />
+    <div class="row">
+        <div class="col-md-6">
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            <div class="form-group">
+                <button type="submit" value="Create" class="btn btn-success"> Güncelle </button>
+                @if (User.IsInRole(Diger.Role_Admin))
+                {
+                    <a asp-action="Index" class="btn btn-primary">Geri Dön</a>
+                }
+            </div>
+        </div>
+        <div class="col-md-6">
+            <a asp-area="Customer" asp-controller="StoreAdress" asp-action="Create" asp-route-id="@Model.Id" class="btn btn-primary">Adres Ekle</a>
+        </div>
+
+    </div>
+</form>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

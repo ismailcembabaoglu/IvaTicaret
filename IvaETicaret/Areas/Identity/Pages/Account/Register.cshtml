@@ -33,19 +33,24 @@
             </div>
             <br />
 
-            @if (User.IsInRole(Diger.Role_Admin))
+            @if (User.IsInRole(Diger.Role_Admin) && Model.Sec == false)
             {
                 <div class="form-group">
-                    <select asp-for="Input.StoreId" class="form-control" asp-items="Model.Branches">
+                    <select asp-for="Input.StoreId" class="form-control" asp-items="Model.Stores">
                         <option value="-1">Bayi Seç</option>
                     </select>
                     <span asp-validation-for="Input.StoreId" class="text-danger"></span>
                 </div>
                 <br />
             }
-        
-            
-  
+            @if (Model.Sec == true)
+            {
+                <div class="form-group">
+                    <input asp-for="Input.StoreId" class="form-control" aria-required="true" placeholder="Mağaza Key" />
+                    <span asp-validation-for="Input.StoreId" class="text-danger"></span>
+                </div>
+                <br />
+            }
 
             <div class="form-group">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre" />
@@ -56,7 +61,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre Tekrarı" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <br/>
+            <br />
             @if (User.IsInRole(Diger.Role_Admin))
             {
                 <div class="form-group">
@@ -69,7 +74,7 @@
                 </div>
                 <br />
             }
-       
+
 
             <button id="registerSubmit" type="submit" class="btn btn-success form-control">Üye Ol</button>
 

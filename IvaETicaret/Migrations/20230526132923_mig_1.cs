@@ -35,7 +35,7 @@ namespace IvaETicaret.Migrations
                     CityId = table.Column<int>(type: "int", nullable: true),
                     CountryId = table.Column<int>(type: "int", nullable: true),
                     PostaKodu = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StoreId = table.Column<int>(type: "int", nullable: true),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -63,7 +63,7 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Key = table.Column<int>(type: "int", nullable: true)
+                    Keye = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -210,7 +210,7 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Key = table.Column<int>(type: "int", nullable: true),
+                    Keye = table.Column<int>(type: "int", nullable: true),
                     CityId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -228,8 +228,7 @@ namespace IvaETicaret.Migrations
                 name: "Stores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RootName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TaxNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -258,7 +257,7 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Key = table.Column<int>(type: "int", nullable: true),
+                    Keye = table.Column<int>(type: "int", nullable: true),
                     IlKey = table.Column<int>(type: "int", nullable: true),
                     CountyId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -286,7 +285,7 @@ namespace IvaETicaret.Migrations
                     Ilce = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Semt = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    StoreId = table.Column<int>(type: "int", nullable: false)
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -312,7 +311,7 @@ namespace IvaETicaret.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StoreId = table.Column<int>(type: "int", nullable: false)
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -331,7 +330,7 @@ namespace IvaETicaret.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    StoreId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CityId = table.Column<int>(type: "int", nullable: false),
                     CountyId = table.Column<int>(type: "int", nullable: false),
                     DistrictId = table.Column<int>(type: "int", nullable: false)
