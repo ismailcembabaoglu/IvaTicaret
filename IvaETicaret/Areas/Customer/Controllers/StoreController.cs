@@ -65,9 +65,12 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
                 _context.Add(store);
-                SenderEmail.Gonder("İva Keyiniz", $"İva mağaza Keyiniz='{store.Id}'", store.Email
+                SenderEmail.Gonder(
+                    "İva Keyiniz",
+                    $"İva mağaza Keyiniz='{store.Id}' budur.\n Bu keyiniz ile '{store.CompanyName}' \n Şirketinize Şirket aktivasyon maili geldikten sonra  kullanıcı ekleyebilirsiniz.",
+                    store.Email
                        );
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -80,8 +83,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
 
-          
-            if (User.IsInRole(Diger.Role_Bayi)&& !id.HasValue)
+
+            if (User.IsInRole(Diger.Role_Bayi) && !id.HasValue)
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
@@ -176,14 +179,14 @@ namespace IvaETicaret.Areas.Customer.Controllers
             {
                 _context.Stores.Remove(store);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool StoreExists(Guid id)
         {
-          return (_context.Stores?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Stores?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

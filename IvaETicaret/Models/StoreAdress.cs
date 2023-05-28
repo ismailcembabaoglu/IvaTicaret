@@ -14,6 +14,6 @@ namespace IvaETicaret.Models
         public int CountyId { get; set; }
         public int DistrictId { get; set; }
         [ForeignKey("DistrictId")]
-        public District District { get; set; }
+        public District? District { get; set; }
     }
 }

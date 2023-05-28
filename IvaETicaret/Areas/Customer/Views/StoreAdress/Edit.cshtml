@@ -17,21 +17,21 @@
             <div class="form-group">
                 <label asp-for="StoreId" class="control-label"></label>
                 <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
-                <span asp-validation-for="StoreId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
-                <input asp-for="CityId" class="form-control" />
+
+                <select asp-for="CityId" id="DrpSehir" class="form-control" asp-items="ViewBag.CityId"></select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CountyId" class="control-label"></label>
-                <input asp-for="CountyId" class="form-control" />
+                <select asp-for="CountyId" id="Drpilce" class="form-control"></select>
                 <span asp-validation-for="CountyId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DistrictId" class="control-label"></label>
-                <select asp-for="DistrictId" class="form-control" asp-items="ViewBag.DistrictId"></select>
+                <select asp-for="DistrictId" id="Drpmahalle" class="form-control"></select>
                 <span asp-validation-for="DistrictId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,4 +47,47 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#DrpSehir').change(function () {
+                var id = $('#DrpSehir').val();
+                $.ajax({
+                    url: '/Customer/StoreAdress/ilcegetir',
+                    data: { p: id },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (data) {
+                        console.log(data);
+                        $('#Drpilce').empty();
+                        $('#Drpmahalle').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $('#Drpilce').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Drpilce').change(function () {
+                var id = $('#Drpilce').val();
+                $.ajax({
+                    url: '/Customer/StoreAdress/mahallegetir',
+                    data: { p: id },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (data) {
+                        console.log(data);
+                        $('#Drpmahalle').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $('#Drpmahalle').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 }

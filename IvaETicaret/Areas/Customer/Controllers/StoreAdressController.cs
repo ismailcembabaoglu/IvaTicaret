@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using IvaETicaret.Data;
 using IvaETicaret.Models;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -24,8 +25,22 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // GET: Customer/StoreAdress
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.StoreAdresses.Include(s => s.District).Include(s => s.Store);
-            return View(await applicationDbContext.ToListAsync());
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var storeId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault().StoreId;
+            if (User.IsInRole(Diger.Role_Admin))
+            {
+                var applicationDbContext = _context.StoreAdresses.Include(s => s.District).Include(s => s.Store);
+                return View(await applicationDbContext.ToListAsync());
+            }
+            else if (User.IsInRole(Diger.Role_Bayi))
+            {
+                var applicationDbContext = _context.StoreAdresses.Include(s => s.District).Include(s => s.Store).Where(c => c.StoreId == storeId);
+                return View(await applicationDbContext.ToListAsync());
+            }
+       
+  
+            return View();
         }
 
         // GET: Customer/StoreAdress/Details/5
@@ -51,7 +66,11 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // GET: Customer/StoreAdress/Create
         public IActionResult Create()
         {
-            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "name");
+            //ViewData["DistrictId"] = _context.Districts.Take(10).Select(c=>new SelectListItem() { Value=c.Id.ToString(),Text=c.Name});
+            ViewData["CityId"] = _context.Cities.Select(c=>new SelectListItem() { Value=c.Id.ToString(),Text=c.Name});
+            //ViewData["CountyId"] = new SelectList(_context.Counties,"Id","Name");
+                //_context.Counties.Select(c=>new SelectListItem() { Value=c.Id.ToString(),Text=c.Name}).ToList();
+
             if (User.IsInRole(Diger.Role_Admin))
             {
                 ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "name");
@@ -61,10 +80,33 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 var storeId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault().StoreId;
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(c => c.Id == storeId), "Id", "name");
+                ViewBag.StoreId =_context.Stores.Where(c => c.Id == storeId).Select(c=>new SelectListItem()
+                {
+                    Value=c.Id.ToString(),
+                    Text=c.CompanyName
+                }).ToList();
             }
 
             return View();
+        }
+   
+        public JsonResult ilcegetir(int p)
+        {
+            var ilceler=_context.Counties.Where(c => c.CityId == p).Select(c=>new
+            {
+               Text=c.Name,
+               Value=c.Id
+            }).ToList();
+            return Json(ilceler);
+        }
+        public JsonResult mahallegetir(int p)
+        {
+            var mahalleler = _context.Districts.Where(c => c.CountyId == p).Select(c => new
+            {
+                Text = c.Name,
+                Value = c.Id
+            }).ToList();
+            return Json(mahalleler);
         }
 
         // POST: Customer/StoreAdress/Create
@@ -80,8 +122,6 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "Id", storeAdress.DistrictId);
-            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "Id", storeAdress.StoreId);
             return View(storeAdress);
         }
 
@@ -99,8 +139,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 {
                     return NotFound();
                 }
-                ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "name", storeAdress.DistrictId);
                 ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "name", storeAdress.StoreId);
+                ViewData["CityId"] = _context.Cities.Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
                 return View(storeAdress);
             }
             else if (User.IsInRole(Diger.Role_Bayi))
@@ -113,8 +153,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 {
                     return NotFound();
                 }
-                ViewData["StoreId"] = new SelectList(_context.Stores.Where(c => c.Id == storeId), "Id", "name", storeAdress.StoreId);
-                ViewData["DistrictId"] = new SelectList(_context.Districts, "Id", "name", storeAdress.DistrictId);
+                ViewData["StoreId"] = new SelectList(_context.Stores.Where(c => c.Id == storeId.Value), "Id", "Id", storeAdress.StoreId);
+                ViewData["CityId"] = _context.Cities.Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
                 return View(storeAdress);
             }
             return View();

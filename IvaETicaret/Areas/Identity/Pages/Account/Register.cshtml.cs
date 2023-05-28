@@ -163,7 +163,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
         {
             if (Input.StoreId != null && !User.IsInRole(Diger.Role_Admin))
             {
-                var list = _db.Stores.Where(c => c.Id == Input.StoreId).ToList();
+                var list = _db.Stores.Where(c => c.Id == Input.StoreId && c.IsActive==true).ToList();
                 if (list.Count > 0)
                 {
                     Sec = true;
