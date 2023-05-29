@@ -4,51 +4,87 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div class="container">
+    <br />
+    <h1>Mağaza Adresleri</h1>
 
-<h1>Index</h1>
+    <p>
+        <a asp-action="Create" class="btn btn-primary"><i style="margin-right:0.5rem" class="bi bi-plus-square-fill"></i>Yeni Adres Ekle</a>
+    </p>
+    <table class="table table-dark table-bordered table-striped" id="myTable">
+        <thead>
+            <tr>
+                <th></th>
+                <th>
+                   Mağaza
+                </th>
+                <th>
+                    İl
+                </th>
+                <th>
+                    İlçe
+                </th>
+                <th>
+                    Mahalle
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <br />
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Store.CompanyName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CityId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CountyId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.District.Name)
+                    </td>
+               
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@section Scripts{
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Store)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CityId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CountyId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.District)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Store.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CityId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CountyId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.District.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myTable").DataTable({
+                responsive: true,
+                "aLengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                iDisplayLength: 10,
+                "oLanguage": {
+                    "sZeroRecords": "Arama kriterinizle eşleşen kayıt yok.",
+                    "sLengthMenu": "Sayfa başına _MENU_ kayıt göster",
+                    "sInfo": "_TOTAL_ kaydın _START_ ile _END_ arası gösteriliyor ",
+                    "sInfoEmpty": "0 kaydın 0 ile 0 arası gösteriliyor",
+                    "sInfoFiltered": "(toplam _MAX_ kayıttan filtrelendi)",
+                    "sSearch": "Ara:",
+                    "oPaginate": {
+                        "sPrevious": "Önceki",
+                        "sNext": "Sonraki",
+                        "sFirst": "İlk",
+                        "sLast": "Son"
+                    },
+                    "sProcessing": "Yükleniyor..."
+                },
+            });
+        });
+    </script>
 }
-    </tbody>
-</table>
+

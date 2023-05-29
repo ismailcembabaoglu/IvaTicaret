@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace IvaETicaret.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = Diger.Role_Admin)]
+    //[Authorize(Roles = Diger.Role_Admin)]
     public class ProductController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -63,11 +63,21 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // GET: Admin/Product/Create
         public IActionResult Create()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c=>c.StoreId==userId.StoreId), "Id", "Name");
-            return View();
+            if (User.IsInRole(Diger.Role_Bayi))
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.StoreId == userId.StoreId), "Id", "Name");
+                return View();
+            }
+            else if (User.IsInRole(Diger.Role_Admin))
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
+                return View();
+            }
+
+            return NotFound();
         }
 
         // POST: Admin/Product/Create
@@ -120,11 +130,20 @@ namespace IvaETicaret.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-            ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c=>c.StoreId==userId.StoreId), "Id", "Name", product.CategoryId);
-            return View(product);
+            if (User.IsInRole(Diger.Role_Bayi))
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                ViewData["CategoryId"] = new SelectList(_context.Categories.Where(c => c.StoreId == userId.StoreId), "Id", "Name", product.CategoryId);
+                return View(product);
+            }
+            else if (User.IsInRole(Diger.Role_Admin))
+            {
+                ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name", product.CategoryId);
+                return View(product);
+            }
+            return NotFound();
         }
 
         // POST: Admin/Product/Edit/5

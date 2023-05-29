@@ -9,7 +9,7 @@
 
 <div class="container">
     <br />
-    <h1>Ürünler</h1>
+    <h1>Mağazalar</h1>
     <hr />
     <p>
         <a asp-action="Create" class="btn btn-primary"><i style="margin-right:0.5rem" class="bi bi-plus-square-fill"></i>Yeni Mağaza Ekle</a>
@@ -48,7 +48,7 @@
                 <th>
                   Bölüm
                 </th>
-                <th></th>
+               
             </tr>
         </thead>
         <tbody>
@@ -97,11 +97,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Department.Name)
                     </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
+                
                 </tr>
             }
         </tbody>

@@ -99,8 +99,10 @@
                                 }
                                @if (User.IsInRole(Diger.Role_Bayi))
                                 {
-                                    <li> <a asp-area="Customer" asp-controller="Store" asp-action="Edit" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Mağazam</a></li>
-                                    <li> <a asp-area="Customer" asp-controller="StoreAdress" asp-action="Index" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Mağaza Adreslerim</a></li>
+                                    <li> <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-box2"></i>Ürünler</a></li>
+                                    <li> <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-diagram-3"></i>Kategoriler</a></li>
+                                    <li> <a asp-area="Customer" asp-controller="Store" asp-action="Edit" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-shop"></i>Mağazam</a></li>
+                                    <li> <a asp-area="Customer" asp-controller="StoreAdress" asp-action="Index" class="dropdown-item" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-geo-alt"></i>Mağaza Adreslerim</a></li>
                                 }
 
                             </ul>

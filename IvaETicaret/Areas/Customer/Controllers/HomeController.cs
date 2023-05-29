@@ -2,6 +2,8 @@
 using IvaETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Security.Claims;
 using X.PagedList;
@@ -52,7 +54,49 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }
             return View(department);
         }
-
+        public IActionResult Location(int id)
+        {
+            StoreAdressVM storeAdressVM = new StoreAdressVM();
+            storeAdressVM.DepartmentId= id;
+            ViewData["CityId"] = _db.Cities.Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
+            return View(storeAdressVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Location(StoreAdressVM storeadress)
+        {
+    //        var store = _db.Stores.
+    //Include(c => c.storeAdresses.
+    //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
+    //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
+            return RedirectToAction("StoreList",storeadress);
+        }
+        public JsonResult ilcegetir(int p)
+        {
+            var ilceler = _db.Counties.Where(c => c.CityId == p).Select(c => new
+            {
+                Text = c.Name,
+                Value = c.Id
+            }).ToList();
+            return Json(ilceler);
+        }
+        public JsonResult mahallegetir(int p)
+        {
+            var mahalleler = _db.Districts.Where(c => c.CountyId == p).Select(c => new
+            {
+                Text = c.Name,
+                Value = c.Id
+            }).ToList();
+            return Json(mahalleler);
+        }
+        public IActionResult StoreList(StoreAdressVM storeadressvm,int p = 1)
+        {
+            var store = _db.Stores.
+                Include(c => c.storeAdresses.
+                Where(c => c.CityId == storeadressvm.CityId && c.CountyId == storeadressvm.CountyId && c.DistrictId == storeadressvm.DistrictId))
+                .Where(c => c.DepartmentId == storeadressvm.DepartmentId).ToList();
+            return View(store);
+        }
         public IActionResult Category(Guid id, int p = 1)
         {
             const int pageSize = 1;
