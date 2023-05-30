@@ -9,7 +9,7 @@
 
 <div class="container">
     <div class="row">
-        @await Component.InvokeAsync("CategoryList",new{id=ViewBag.DepartmentId})
+        @await Component.InvokeAsync("CategoryList",new{id=ViewBag.storeId})
         @foreach (var item in Model)
         {
             <div class="col-md-3">

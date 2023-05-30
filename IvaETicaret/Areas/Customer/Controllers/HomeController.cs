@@ -57,7 +57,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         public IActionResult Location(int id)
         {
             StoreAdressVM storeAdressVM = new StoreAdressVM();
-            storeAdressVM.DepartmentId= id;
+            storeAdressVM.DepartmentId = id;
             ViewData["CityId"] = _db.Cities.Select(c => new SelectListItem() { Value = c.Id.ToString(), Text = c.Name });
             return View(storeAdressVM);
         }
@@ -65,11 +65,11 @@ namespace IvaETicaret.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Location(StoreAdressVM storeadress)
         {
-    //        var store = _db.Stores.
-    //Include(c => c.storeAdresses.
-    //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
-    //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
-            return RedirectToAction("StoreList",storeadress);
+            //        var store = _db.Stores.
+            //Include(c => c.storeAdresses.
+            //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
+            //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
+            return RedirectToAction("StoreList", storeadress);
         }
         public JsonResult ilcegetir(int p)
         {
@@ -89,7 +89,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }).ToList();
             return Json(mahalleler);
         }
-        public IActionResult StoreList(StoreAdressVM storeadressvm,int p = 1)
+        public IActionResult StoreList(StoreAdressVM storeadressvm, int p = 1)
         {
             var store = _db.Stores.
                 Include(c => c.storeAdresses.
@@ -100,23 +100,18 @@ namespace IvaETicaret.Areas.Customer.Controllers
         public IActionResult Category(Guid id, int p = 1)
         {
             const int pageSize = 1;
-            var category = _db.Categories.FirstOrDefault(c => c.StoreId == id);
-            var cate = _db.Categories.Where(c => c.StoreId == id).ToList();
+            var cate = _db.Products.Include(c => c.Category).Where(c => c.Category.StoreId == id).ToList();
             PagedList<Product> product = new PagedList<Product>(null, p, 40);
             if (cate.Count() > 0)
             {
-                foreach (var item in cate)
-                {
-                    product = new PagedList<Product>(_db.Products.Where(c => c.CategoryId == item.Id).ToList(), p, 40);
-                }
 
+                product = new PagedList<Product>(cate, p, 40);
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 if (claim != null)
                 {
                     var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).ToList().Count();
                     HttpContext.Session.SetInt32(Diger.ssShopingCart, count);
-
                 }
                 ViewBag.id = id;
 
@@ -198,23 +193,17 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 var product = _db.Products.Where(i => i.CategoryId == Id);
 
                 ViewBag.KategoriId = Id;
-                ViewBag.DepartmentId = StoreId;
+                ViewBag.storeId = StoreId;
                 return View(product.ToPagedList(p, 40));
             }
             else
             {
                 PagedList<Product> product = new PagedList<Product>(null, p, 40);
-                var categori = _db.Categories.Where(c => c.StoreId == StoreId).ToList();
-                foreach (var item in categori)
-                {
-                    product = new PagedList<Product>(_db.Products.Where(i => i.CategoryId == item.Id).ToList(), p, 40);
+                var prod = _db.Products.Include(c => c.Category).Where(c => c.Category.StoreId == StoreId).ToList();
 
-
-                }
-
-
+                product = new PagedList<Product>(prod, p, 40);
                 ViewBag.KategoriId = Id;
-                ViewBag.DepartmentId = StoreId;
+                ViewBag.storeId = StoreId;
                 return View(product.ToPagedList(p, 40));
             }
 

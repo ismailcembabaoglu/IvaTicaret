@@ -28,5 +28,19 @@ namespace IvaETicaret.Models
         [ForeignKey("OdemeTurId")]
         public OdemeTur OdemeTur { get; set; }
         public ICollection<OrderDetail>? OrderDetails { get; set; }
+        public Guid StoreId { get; set; }
+        [ForeignKey("StoreId")]
+        public Store Store { get; set; }
+        [Required]
+        public string CartName { get; set; }
+        [Required]
+        public string CartNumber { get; set; }
+        [Required]
+        public string ExpirationMonth { get; set; }
+        [Required]
+        public string ExpirationYear { get; set; }
+        [Required]
+        public string Cvc { get; set; }
+
     }
 }

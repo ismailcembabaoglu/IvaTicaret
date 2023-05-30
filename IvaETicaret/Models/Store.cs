@@ -21,5 +21,6 @@ namespace IvaETicaret.Models
         public Department? Department { get; set; }
 
         public ICollection<StoreAdress>? storeAdresses { get; set; }
+        public ICollection<OrderHeader>? OrderHeaders { get; set; }
     }
 }

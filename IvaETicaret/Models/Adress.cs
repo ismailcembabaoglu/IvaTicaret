@@ -17,9 +17,9 @@ namespace IvaETicaret.Models
         public string Ilce { get; set; }
         public string Semt { get; set; }
         public bool IsActive { get; set; }
-        public Guid StoreId { get; set; }
-        [ForeignKey("StoreId")]
-        public Store Store { get; set; }
+        //public Guid StoreId { get; set; }
+        //[ForeignKey("StoreId")]
+        //public Store Store { get; set; }
         public ICollection<OrderHeader>? OrderHeaders { get; set; }
     }
 }

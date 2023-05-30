@@ -65,7 +65,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Where(i => i.Adress.StoreId == bayi).Include(c => c.OdemeTur).Include(c => c.ApplicationUser);
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c=>c.Store).Where(i => i.StoreId == bayi).Include(c => c.OdemeTur).Include(c => c.ApplicationUser);
             }
             return View(orderHeaderList);
         }
@@ -86,7 +86,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Where(i => i.Adress.StoreId == bayi && i.OrderStatus == Diger.Durum_Beklemede);
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c=>c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_Beklemede);
             }
             return View(orderHeaderList);
         }
@@ -107,7 +107,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Where(i => i.Adress.StoreId == bayi && i.OrderStatus == Diger.Durum_Hazirlaniyor);
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Store).Where(i => i.StoreId== bayi && i.OrderStatus == Diger.Durum_Hazirlaniyor);
             }
             return View(orderHeaderList);
         }
@@ -128,7 +128,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Where(i => i.Adress.StoreId == bayi && i.OrderStatus == Diger.Durum_YolaCikti);
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_YolaCikti);
             }
             return View(orderHeaderList);
         }
@@ -149,7 +149,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Where(i => i.Adress.StoreId == bayi && i.OrderStatus == Diger.Durum_TeslimEdildi);
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_TeslimEdildi);
             }
             return View(orderHeaderList);
         }
