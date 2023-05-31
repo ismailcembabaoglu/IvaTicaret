@@ -126,13 +126,18 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
         }
 
 
-        public async Task OnGetAsync(bool secim, string? message, string returnUrl = null)
+        public async Task OnGetAsync(string title,bool secim, string? message, string returnUrl = null)
         {
+            if (title != "Mağaza Kullanıcı Kayıt" || title != "Üye Kayıt")
+            {
+                ModelState.AddModelError(string.Empty, "Yanlış Sayfa");
+                
+            }
             if (!string.IsNullOrEmpty(message))
             {
                 ModelState.AddModelError(string.Empty, message);
             }
-
+            ViewData["Title"] = title;
             Sec = secim;
             
             ReturnUrl = returnUrl;
@@ -159,8 +164,9 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
             //  Branches = new SelectList(await _db.Branches.ToListAsync(), nameof(Branch.Id).ToString(), nameof(Branch.CompanyName));
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string title,string returnUrl = null)
         {
+        
             if (Input.StoreId != null && !User.IsInRole(Diger.Role_Admin))
             {
                 var list = _db.Stores.Where(c => c.Id == Input.StoreId && c.IsActive==true).ToList();
@@ -172,10 +178,14 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                 {
                     return RedirectToPage("Register", new { secim = true, message = "Mağaza Keyiniz Yanlış Lütfen Mailinizdeki Keyi Giriniz." });
                 }
-
+             
 
             }
-         
+            if (title == "Mağaza Kullanıcı Kayıt" && Input.StoreId==null && !User.IsInRole(Diger.Role_Admin))
+            {
+                return RedirectToPage("Register", new { secim = true, message = "Mağaza Keyi Giriniz",title= "Mağaza Kullanıcı Kayıt" });
+            }
+
 
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();

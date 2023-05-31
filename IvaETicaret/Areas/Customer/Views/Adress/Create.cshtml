@@ -1,0 +1,119 @@
+﻿@model IvaETicaret.Models.Adress
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>Adress</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (User.IsInRole(Diger.Role_Admin))
+            {
+                <div class="form-group">
+                    <label asp-for="ApplicationUserId" class="control-label"></label>
+                    <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
+                </div>
+            }
+            else if (User.IsInRole(Diger.Role_User)||User.IsInRole(Diger.Role_Birey))
+            {
+                <div class="form-group">
+                  <input type="hidden" asp-for="ApplicationUserId" value="@ViewBag.UserId" />
+                </div>
+            }
+   
+            <div class="form-group">
+                <label asp-for="AdressTitle" class="control-label">Adres Başlığı</label>
+                <input asp-for="AdressTitle" class="form-control" />
+                <span asp-validation-for="AdressTitle" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TamAdres" class="control-label">Tam Adres</label>
+                <input asp-for="TamAdres" class="form-control" />
+                <span asp-validation-for="TamAdres" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Il" class="control-label">il</label>
+
+                <select asp-for="Il" id="DrpSehir" class="form-control" asp-items="ViewBag.CityId"></select>
+                <span asp-validation-for="Il" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ilce" class="control-label"></label>
+                <select asp-for="Ilce" id="Drpilce" class="form-control"></select>
+                <span asp-validation-for="Ilce" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Semt" class="control-label"></label>
+                <select asp-for="Semt" id="Drpmahalle" class="form-control"></select>
+                <span asp-validation-for="Semt" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsActive" /> Aktif
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Geri Dön</a>
+</div>
+@section Scripts {
+    @{
+
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#DrpSehir').change(function () {
+                var id = $('#DrpSehir').val();
+                $.ajax({
+                    url: '/Customer/Adress/ilcegetir',
+                    data: { p: id },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (data) {
+                        console.log(data);
+                        $('#Drpilce').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $('#Drpilce').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#Drpilce').change(function () {
+                var id = $('#Drpilce').val();
+                $.ajax({
+                    url: '/Customer/Adress/mahallegetir',
+                    data: { p: id },
+                    type: "POST",
+                    dataType: "Json",
+                    success: function (data) {
+                        console.log(data);
+                        $('#Drpmahalle').empty();
+                        for (var i = 0; i < data.length; i++) {
+                            $('#Drpmahalle').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+

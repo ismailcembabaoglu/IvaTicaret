@@ -83,9 +83,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Beklemede;
             ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
             ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-            var payment = PaymentProcess(model);
-            if (payment.Status == "success")
-            {
+          
                 _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
                 _db.SaveChanges();
                 foreach (var item in ShoppingCartVM.ListCart)
@@ -104,16 +102,19 @@ namespace IvaETicaret.Areas.Customer.Controllers
                     _db.OrderDetails.Add(orderDetail);
 
                 }
+                var payment = PaymentProcess(model);
+            if (payment.Status=="success")
+            {
                 _db.ShoppingKarts.RemoveRange(ShoppingCartVM.ListCart);
                 _db.SaveChanges();
                 HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
                 return RedirectToAction("SiparisTamam");
             }
-            else if (payment.Status == "failure")
+            else
             {
+                _db.OrderHeaders.RemoveRange(ShoppingCartVM.OrderHeader);
                 return RedirectToAction("KartHata");
             }
-            return View();
        
         }
         //sanal pos
@@ -128,7 +129,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             request.Locale = Locale.TR.ToString();
             request.ConversationId =new Random().Next(1111,9999).ToString();
             request.Price = model.OrderHeader.OrderTotal.ToString();
-            request.PaidPrice = model.OrderHeader.OrderTotal.ToString(); ;
+            request.PaidPrice = model.OrderHeader.OrderTotal.ToString(); 
             request.Currency = Currency.TRY.ToString();
             request.Installment = 1;
             request.BasketId = "B67832";

@@ -17,14 +17,14 @@
     else
     {
         <li class="nav-item">
-            <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="false" style="margin-right:0.5rem"><i class="bi bi-person-square"></i>Üye Ol</a>
+            <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="false" asp-route-title="Üye Kayıt"  style="margin-right:0.5rem"><i class="bi bi-person-square"></i>Üye Ol</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login" style="margin-right:0.5rem"><i class="bi bi-box-arrow-in-right"></i> İva Giriş Yap</a>
         </li>
 
         <li class="nav-item">
-            <a class="btn btn-warning" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="true" style="margin-right:0.5rem"><i class="bi bi-person-vcard-fill"></i>Mağaza Üye</a>
+            <a class="btn btn-warning" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="true" asp-route-title="Mağaza Kullanıcı Kayıt" style="margin-right:0.5rem"><i class="bi bi-person-vcard-fill"></i>Mağaza Üye</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-info" asp-area="Customer" asp-controller="Store" asp-action="Create" ><i class="bi bi-shop"></i>Mağza Kayıt</a>

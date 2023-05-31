@@ -74,37 +74,35 @@
 
                         </div>
                         <div class="mb-3 row">
-                            <label for="KartAdi" class="col-sm-4 col-form-label">Kart Adı</label>
                             <div class="col-sm-8">
-                                <input class="form-control" asp-for="OrderHeader.CartName" type="text" aria-label="readonly input example" readonly>
+                                <input class="form-control" asp-for="OrderHeader.CartName" placeholder="Kart Adı" type="text" aria-label="readonly input example">
                                 <span asp-validation-for="OrderHeader.CartName" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="KartNumarasi" class="col-sm-4 col-form-label">Kart Numarası</label>
                             <div class="col-sm-8">
-                                <input class="form-control" asp-for="OrderHeader.CartNumber" type="text" aria-label="readonly input example" readonly>
+                                <input class="form-control" asp-for="OrderHeader.CartNumber" placeholder="Kart Numarası" type="text" aria-label="readonly input example" >
                                 <span asp-validation-for="OrderHeader.CartNumber" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-3 row">
 
                             <div class="col-sm-8">
-                                <input class="form-control" asp-for="OrderHeader.ExpirationMonth" placeholder="Ay" type="text" aria-label="readonly input example" readonly>
+                                <input class="form-control" asp-for="OrderHeader.ExpirationMonth" placeholder="Ay" type="text" aria-label="readonly input example" >
                                 <span asp-validation-for="OrderHeader.ExpirationMonth" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-3 row">
 
                             <div class="col-sm-8">
-                                <input class="form-control" asp-for="OrderHeader.ExpirationYear" placeholder="Yıl" type="text" aria-label="readonly input example" readonly>
+                                <input class="form-control" asp-for="OrderHeader.ExpirationYear" placeholder="Yıl" type="text" aria-label="readonly input example" >
                                 <span asp-validation-for="OrderHeader.ExpirationYear" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="mb-3 row">
 
                             <div class="col-sm-8">
-                                <input class="form-control" asp-for="OrderHeader.Cvc" placeholder="Güvenlik Kodu" type="text" aria-label="readonly input example" readonly>
+                                <input class="form-control" asp-for="OrderHeader.Cvc" placeholder="Güvenlik Kodu" type="text" aria-label="readonly input example" >
                                 <span asp-validation-for="OrderHeader.Cvc" class="text-danger"></span>
                             </div>
                         </div>

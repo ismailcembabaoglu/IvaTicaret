@@ -10,7 +10,7 @@ namespace IvaETicaret.Models
 
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
-        public ApplicationUser ApplicationUser { get; set; }
+        public ApplicationUser? ApplicationUser { get; set; }
         public string AdressTitle { get; set; }
         public string TamAdres { get; set; }
         public string Il { get; set; }

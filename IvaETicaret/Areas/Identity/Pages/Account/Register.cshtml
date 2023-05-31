@@ -2,12 +2,12 @@
 @model RegisterModel
 @using IvaETicaret.Models
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = ViewBag.Title;
 }
 <div class="row">
     <div class="col-md-4">
         <form class="form-control" id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2 style="text-align:center;color:green">Üye Kayıt Formu</h2>
+            <h2 style="text-align:center;color:green">@ViewBag.Title</h2>
 
 
             <hr />
@@ -76,7 +76,7 @@
             }
 
 
-            <button id="registerSubmit" type="submit" class="btn btn-success form-control">Üye Ol</button>
+            <button id="registerSubmit" type="submit" asp-route-title="@ViewBag.Title" class="btn btn-success form-control">Üye Ol</button>
 
 
 
