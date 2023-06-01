@@ -1,5 +1,6 @@
 ﻿using IvaETicaret.Data;
 using IvaETicaret.Models;
+using Iyzipay.Model.V2.Subscription;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +12,12 @@ namespace IvaETicaret.Areas.Admin.Controllers
     public class DepartmentController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IWebHostEnvironment _he;
 
-        public DepartmentController(ApplicationDbContext context)
+        public DepartmentController(ApplicationDbContext context, IWebHostEnvironment he)
         {
             _context = context;
+            _he = he;
         }
 
         // GET: Admin/Department
@@ -52,10 +55,30 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name")] Department department)
+        public async Task<IActionResult> Create([Bind("Id,Name,Image")] Department department)
         {
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(_he.WebRootPath, @"images\product");
+                    var ext = Path.GetExtension(files[0].FileName);
+                    if (department.Image != null)
+                    {
+                        var imagePath = Path.Combine(_he.WebRootPath, department.Image.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + ext), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStreams);
+                    }
+                    department.Image = @"\images\department\" + fileName + ext;
+                }
                 _context.Add(department);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -84,7 +107,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Department department)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image")] Department department)
         {
             if (id != department.Id)
             {
@@ -93,6 +116,26 @@ namespace IvaETicaret.Areas.Admin.Controllers
 
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(_he.WebRootPath, @"images\department");
+                    var ext = Path.GetExtension(files[0].FileName);
+                    if (department.Image != null)
+                    {
+                        var imagePath = Path.Combine(_he.WebRootPath, department.Image.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + ext), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStreams);
+                    }
+                    department.Image = @"\images\department\" + fileName + ext;
+                }
                 try
                 {
                     _context.Update(department);
