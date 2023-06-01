@@ -13,6 +13,7 @@ namespace IvaETicaret.Models
         public string TaxOffice { get; set; }
         public bool ContractConfirmation { get; set; }
         public bool IsActive { get; set; }
+        public bool StoreIsActive { get; set; }
         public string TaxPlate { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }

@@ -1,16 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using IvaETicaret.Data
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
-
+@inject ApplicationDbContext _db
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
+        
         <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hoşgeldin @User.Identity?.Name!</a>
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hoşgeldin @_db.ApplicationUsers.Where(c=>c.Email==User.Identity.Name).FirstOrDefault().Name @*@User.Identity?.Name!*@</a>
         </li>
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="btn btn-outline-dangerk"><i class="bi bi-x-circle-fill"></i>Çıkış Yap</button>
+                <button type="submit" class="btn btn-danger" style="margin-right:0.5rem"><i class="bi bi-x-circle-fill"></i>Çıkış Yap</button>
             </form>
         </li>
     }
@@ -20,14 +22,14 @@
             <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="false" asp-route-title="Üye Kayıt"  style="margin-right:0.5rem"><i class="bi bi-person-square"></i>Üye Ol</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login" style="margin-right:0.5rem"><i class="bi bi-box-arrow-in-right"></i> İva Giriş Yap</a>
+            <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login" style="margin-right:0.5rem"><i class="bi bi-box-arrow-in-right"></i>Giriş Yap</a>
         </li>
 
         <li class="nav-item">
-            <a class="btn btn-warning" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="true" asp-route-title="Mağaza Kullanıcı Kayıt" style="margin-right:0.5rem"><i class="bi bi-person-vcard-fill"></i>Mağaza Üye</a>
+            <a class="btn btn-warning" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="true" asp-route-title="Mağaza Kullanıcı Kayıt" style="margin-right:0.5rem"><i class="bi bi-person-vcard-fill"></i>Esnaf Üye</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-info" asp-area="Customer" asp-controller="Store" asp-action="Create" ><i class="bi bi-shop"></i>Mağza Kayıt</a>
+            <a class="btn btn-info" asp-area="Customer" asp-controller="Store" asp-action="Create" ><i class="bi bi-shop"></i>Esnaf Başvuru Formu</a>
         </li>
 
     }

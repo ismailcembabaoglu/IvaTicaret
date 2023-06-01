@@ -88,16 +88,16 @@
                             <ul class="dropdown-menu">
                                 @if (User.IsInRole(Diger.Role_Admin))
                                 {
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" action="Index">Kategoriler</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Department" action="Index">Bölümler</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" action="Index">Ürünler</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="City" action="Index">İl</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="County" action="Index">İlçe</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="District" action="Index">Mahalle</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" action="Index">Kullanıcılar</a></li>
-                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" action="Index">Siparişler</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Store" action="Index">Mağzalar</a></li>
-                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Adress" action="Index">Kullanıcı Adresleri</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Kategoriler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Department" asp-action="Index">Bölümler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Ürünler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="City" asp-action="Index">İl</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="County" asp-action="Index">İlçe</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="District" asp-action="Index">Mahalle</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="User" asp-action="Index">Kullanıcılar</a></li>
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Order" asp-action="Index">Siparişler</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Store" asp-action="Index">Mağzalar</a></li>
+                                    <li><a class="dropdown-item" asp-area="Customer" asp-controller="Adress" asp-action="Index">Kullanıcı Adresleri</a></li>
                                 }
                                @if (User.IsInRole(Diger.Role_Bayi))
                                 {

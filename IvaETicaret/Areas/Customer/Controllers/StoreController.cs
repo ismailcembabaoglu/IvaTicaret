@@ -10,6 +10,7 @@ using IvaETicaret.Models;
 using System.Security.Claims;
 using IvaETicaret.Email;
 using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -24,6 +25,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
 
         // GET: Customer/Store
+        [Authorize(Roles = Diger.Role_Admin)]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Stores.Include(s => s.Department);
@@ -73,10 +75,18 @@ namespace IvaETicaret.Areas.Customer.Controllers
                     store.Email
                        );
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (User.IsInRole(Diger.Role_Admin))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction("Index","Home");
+                }
+               
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
-            return View(store);
+                return View(store);
         }
 
         // GET: Customer/Store/Edit/5
@@ -107,7 +117,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
                 return View(store);
             }
-            return View();
+            return NotFound();
         }
 
         // POST: Customer/Store/Edit/5
@@ -115,7 +125,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,RootName,CompanyName,TaxNumber,TaxOffice,ContractConfirmation,IsActive,TaxPlate,PhoneNumber,Email,DepartmentId")] Store store)
+        public async Task<IActionResult> Edit(Guid id, [Bind("Id,RootName,CompanyName,TaxNumber,TaxOffice,ContractConfirmation,IsActive,TaxPlate,PhoneNumber,Email,DepartmentId,StoreIsActive")] Store store)
         {
             if (id != store.Id)
             {
@@ -140,7 +150,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index","Home");
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
             return View(store);

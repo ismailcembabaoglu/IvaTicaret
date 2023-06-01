@@ -128,11 +128,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string title,bool secim, string? message, string returnUrl = null)
         {
-            if (title != "Mağaza Kullanıcı Kayıt" || title != "Üye Kayıt")
-            {
-                ModelState.AddModelError(string.Empty, "Yanlış Sayfa");
-                
-            }
+           
             if (!string.IsNullOrEmpty(message))
             {
                 ModelState.AddModelError(string.Empty, message);
@@ -264,7 +260,7 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    SenderEmail.Gonder("Confirm your email", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.", user.Email
+                    SenderEmail.Gonder("e-postanızı onaylayın", $"Lütfen hesabınızı onaylayın <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>Buraya Tıkla</a>.", user.Email
                        );
 
 

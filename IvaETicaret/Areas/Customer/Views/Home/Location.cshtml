@@ -3,7 +3,7 @@
     ViewData["Title"] = "Location";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h4>Location</h4>
+<h4>Konum</h4>
 <hr />
 
 <div class="row">
@@ -23,10 +23,11 @@
                 <label asp-for="DistrictId" class="control-label"></label>
                 <select asp-for="DistrictId" id="Drpmahalle" class="form-control"></select>
             </div>
+            <br />
             <div class="form-group">
               @*  <a asp-action="StoreList" asp-controller="Home" asp-route-storeadressvm="@Model" class="btn btn-info">Mağazaları listele</a>*@
                 @*   <input type="submit" value="Create" class="btn btn-primary" />*@
-                <input type="submit" value="Location" class="btn btn-primary" />
+                <input type="submit" value="Mağazaları Listele" class="btn btn-primary" />
             </div>
         </form>
     </div>

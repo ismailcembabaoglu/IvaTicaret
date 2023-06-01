@@ -49,7 +49,14 @@
         <div class="col-md-6">
             <div class="form-group form-check">
                 <label class="form-check-label">
-                    <input class="form-check-input" asp-for="ContractConfirmation" /> @Html.DisplayNameFor(model => model.ContractConfirmation)
+                    <input class="form-check-input" asp-for="ContractConfirmation" /> Sözleşme Onay
+                </label>
+            </div>
+        </div>
+         <div class="col-md-6">
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="StoreIsActive" /> Mağaza Açık
                 </label>
             </div>
         </div>
@@ -58,7 +65,7 @@
             {
                 <div class="form-group form-check">
                     <label class="form-check-label">
-                        <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+                        <input class="form-check-input" asp-for="IsActive" /> Aktiflik
                     </label>
                 </div>
             }
@@ -103,7 +110,7 @@
         <div class="col-md-6">
 
             <div class="form-group">
-                <button type="submit" value="Create" class="btn btn-success"> Güncelle </button>
+                <button type="submit" value="Edit" asp-route-Id="@Model.Id" class="btn btn-success"> Güncelle </button>
                 @if (User.IsInRole(Diger.Role_Admin))
                 {
                     <a asp-action="Index" class="btn btn-primary">Geri Dön</a>
