@@ -3,7 +3,13 @@ using IvaETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using System.Linq.Expressions;
+using System.Media;
 using System.Security.Claims;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.EventArgs;
+using TableDependency.SqlClient.Where;
 
 namespace IvaETicaret.Areas.Admin.Controllers
 {
@@ -69,6 +75,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
             }
             return View(orderHeaderList);
         }
+
         public IActionResult Beklenen()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;

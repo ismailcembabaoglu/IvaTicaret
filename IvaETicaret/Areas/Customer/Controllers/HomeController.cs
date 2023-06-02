@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Media;
 using System.Security.Claims;
 using X.PagedList;
 
@@ -46,6 +47,8 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var department = _db.Departments.ToList();
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            //Console.Beep(38, 2000);
+           SystemSounds.Asterisk.Play();
             if (claim != null)
             {
                 var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).ToList().Count();

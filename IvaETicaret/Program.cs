@@ -3,6 +3,8 @@ using IvaETicaret.Email;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
+using IvaETicaret.Hubs;
 
 namespace IvaETicaret
 {
@@ -29,6 +31,7 @@ namespace IvaETicaret
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+            builder.Services.AddSignalR(c=>c.EnableDetailedErrors=true);
 
             var app = builder.Build();
 
@@ -51,7 +54,7 @@ namespace IvaETicaret
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            //app.MapHub<OrdersHub>();
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
