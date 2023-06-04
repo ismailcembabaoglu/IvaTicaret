@@ -2,14 +2,17 @@
 using IvaETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
 using System.Media;
 using System.Security.Claims;
+using System.Threading;
 using TableDependency.SqlClient;
 using TableDependency.SqlClient.Base.EventArgs;
 using TableDependency.SqlClient.Where;
+using X.PagedList;
 
 namespace IvaETicaret.Areas.Admin.Controllers
 {
@@ -20,6 +23,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
         [BindProperty]
         public OrderDetailsVM OrderVM { get; set; }
+        public int sayi = 0;
         public OrderController(ApplicationDbContext db)
         {
             _db = db;
@@ -54,26 +58,31 @@ namespace IvaETicaret.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
-        public IActionResult Index()
+        public async Task< IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            IEnumerable<OrderHeader> orderHeaderList;
+           List<OrderHeader> orderHeaderList=null;
             if (User.IsInRole(Diger.Role_Admin))
             {
-                orderHeaderList = _db.OrderHeaders.Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Adress).ToList();
+                orderHeaderList = await _db.OrderHeaders.Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Adress).ToListAsync();
             }
             else if (User.IsInRole(Diger.Role_User) || User.IsInRole(Diger.Role_Birey))
             {
-                orderHeaderList = _db.OrderHeaders.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.ApplicationUser).Include(c => c.OdemeTur);
+                    orderHeaderList = await _db.OrderHeaders.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.ApplicationUser).Include(c => c.OdemeTur).ToListAsync();
+               
 
             }
             else
             {
-                var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
-                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c=>c.Store).Where(i => i.StoreId == bayi).Include(c => c.OdemeTur).Include(c => c.ApplicationUser);
+        
+                        var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
+                        orderHeaderList = await _db.OrderHeaders.Include(i => i.Adress).Include(c => c.Store).Where(i => i.StoreId == bayi).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).ToListAsync();
+                    //var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
+                    //orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.Store).Where(i => i.StoreId == bayi).Include(c => c.OdemeTur).Include(c => c.ApplicationUser);
+
             }
-            return View(orderHeaderList);
+            return View( orderHeaderList);
         }
 
         public IActionResult Beklenen()
@@ -92,8 +101,13 @@ namespace IvaETicaret.Areas.Admin.Controllers
             }
             else
             {
+
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
                 orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c=>c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_Beklemede);
+                if (orderHeaderList.Count()>0)
+                {
+                    SystemSounds.Asterisk.Play();
+                }
             }
             return View(orderHeaderList);
         }

@@ -54,7 +54,7 @@ namespace IvaETicaret
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.MapHub<OrdersHub>();
+            app.MapHub<OrdersHub>("/ordersHub");
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
