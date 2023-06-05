@@ -16,7 +16,7 @@
             @if (User.IsInRole(Diger.Role_Admin))
             {
                 <div class="form-group">
-                    <label asp-for="ApplicationUserId" class="control-label"></label>
+                    <label asp-for="ApplicationUserId" class="control-label">Kullanıcı</label>
                     <select asp-for="ApplicationUserId" class="form-control" asp-items="ViewBag.ApplicationUserId"></select>
                 </div>
             }
@@ -59,7 +59,7 @@
                 </label>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Kaydet" class="btn btn-primary" />
             </div>
         </form>
     </div>
