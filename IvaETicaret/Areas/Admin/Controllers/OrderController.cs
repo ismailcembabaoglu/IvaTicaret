@@ -24,6 +24,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         [BindProperty]
         public OrderDetailsVM OrderVM { get; set; }
         public int sayi = 0;
+        SoundPlayer ss = new SoundPlayer();
         public OrderController(ApplicationDbContext db)
         {
             _db = db;
@@ -106,7 +107,11 @@ namespace IvaETicaret.Areas.Admin.Controllers
                 orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c=>c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_Beklemede);
                 if (orderHeaderList.Count()>0)
                 {
-                    SystemSounds.Asterisk.Play();
+                
+             
+                    ss.Stream = IvaETicaret.Properties.Resources.positive_logo_opener_13622;
+
+                    ss.Play();
                 }
             }
             return View(orderHeaderList);
