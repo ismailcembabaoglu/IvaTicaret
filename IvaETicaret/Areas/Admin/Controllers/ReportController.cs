@@ -3,6 +3,7 @@ using iTextSharp.text.pdf;
 using IvaETicaret.Data;
 using IvaETicaret.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace IvaETicaret.Areas.Admin.Controllers
@@ -20,6 +21,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         }
         public IActionResult Index()
         {
+            ViewData["StoreId"] = new SelectList(_context.Stores, "Id", "CompanyName");
             return View();
         }
 
@@ -92,7 +94,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
 
             PdfWriter.GetInstance(document, stream);
             document.Open();
-            Paragraph paragraph = new Paragraph("Günlük Satış Raporu(Tüm Bayiler)");
+            Paragraph paragraph = new Paragraph("Aylık Satış Raporu(Tüm Bayiler)");
             Paragraph paragraph2 = new Paragraph("           ");
 
             PdfPTable pdfPTable = new PdfPTable(8);
@@ -145,7 +147,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
 
             PdfWriter.GetInstance(document, stream);
             document.Open();
-            Paragraph paragraph = new Paragraph("Günlük Satış Raporu(Tüm Bayiler)");
+            Paragraph paragraph = new Paragraph("Yıllık Satış Raporu(Tüm Bayiler)");
             Paragraph paragraph2 = new Paragraph("           ");
 
             PdfPTable pdfPTable = new PdfPTable(8);
