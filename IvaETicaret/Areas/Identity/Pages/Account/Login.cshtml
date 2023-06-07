@@ -1,5 +1,7 @@
 ﻿@page
+@using IvaETicaret.Data;
 @model LoginModel
+@inject ApplicationDbContext _db;
 
 @{
     ViewData["Title"] = "Giriş Sayfası";
@@ -9,7 +11,7 @@
 <div class="container">
     <div class="container" style="max-width:800px">
         <div class="row ">
-            <div class="col-md-4 mx-auto"> <img src="~/images/image/ivalogo.png" width="300px" height="250px" /></div>
+          @*  <div class="col-md-4 mx-auto"> <img src="@_db.SiteSettings.FirstOrDefault().UserEntryLogo" width="300px" height="250px" /></div>*@
         </div>
 
         @*   <h1>@ViewData["Title"]</h1>*@

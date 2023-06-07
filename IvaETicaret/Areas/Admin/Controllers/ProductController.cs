@@ -26,7 +26,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
         {
             if (User.IsInRole(Diger.Role_Admin))
             {
-                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c=>c.Store);
+                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c => c.Store);
                 return View(await applicationDbContext.ToListAsync());
             }
             if (User.IsInRole(Diger.Role_Bayi))
@@ -34,11 +34,11 @@ namespace IvaETicaret.Areas.Admin.Controllers
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 var userId = _context.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c => c.Store).Where(c=>c.Category.StoreId==userId.StoreId);
+                var applicationDbContext = _context.Products.Include(p => p.Category).ThenInclude(c => c.Store).Where(c => c.Category.StoreId == userId.StoreId);
                 return View(await applicationDbContext.ToListAsync());
             }
             return View();
-          
+
         }
 
         // GET: Admin/Product/Details/5

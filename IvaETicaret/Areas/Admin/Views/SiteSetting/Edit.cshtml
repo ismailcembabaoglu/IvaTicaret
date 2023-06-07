@@ -1,0 +1,44 @@
+﻿@model IvaETicaret.Models.SiteSetting
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>SiteSetting</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="SiteName" class="control-label"></label>
+                <input asp-for="SiteName" class="form-control" />
+                <span asp-validation-for="SiteName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="UserEntryLogo" class="control-label">Kullanıcı Girişteki Logo</label>
+                <input asp-for="UserEntryLogo" class="form-control" type="file" />
+                <span style="color:forestgreen">300x250px Ebatlarında Fotoğraf Seçmeniz tavsiye edilir</span>
+                <span asp-validation-for="UserEntryLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MainLogo" class="control-label">Ansayfa Logosu</label>
+                <input asp-for="MainLogo" class="form-control" type="file" />
+                <span style="color:forestgreen">250x60px Ebatlarında Fotoğraf Seçmeniz tavsiye edilir</span>
+                <span asp-validation-for="MainLogo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
