@@ -23,5 +23,6 @@ namespace IvaETicaret.Models
 
         public ICollection<StoreAdress>? storeAdresses { get; set; }
         public ICollection<OrderHeader>? OrderHeaders { get; set; }
+        public ICollection<StorePayment>? StorePayments { get; set; }
     }
 }

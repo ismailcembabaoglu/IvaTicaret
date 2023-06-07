@@ -24,6 +24,7 @@ namespace IvaETicaret.Data
         public DbSet<IvaETicaret.Models.District> Districts { get; set; }
         public DbSet<IvaETicaret.Models.Adress> Adress { get; set; }
         public DbSet<IvaETicaret.Models.OdemeTur> OdemeTurleri { get; set; }
+        public DbSet<IvaETicaret.Models.StorePayment> StorePayments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

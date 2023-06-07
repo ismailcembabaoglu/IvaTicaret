@@ -1,48 +1,74 @@
-﻿@model IEnumerable<IvaETicaret.Models.County>
+﻿@model IEnumerable<IvaETicaret.Models.StorePayment>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="container">
     <br />
-    <h1>İlçeler</h1>
+    <h1>Ödemeler</h1>
     <hr />
-    <p>
+    @if (User.IsInRole(Diger.Role_Admin))
+    {
+         <p>
         <a asp-action="Create" class="btn btn-primary"><i style="margin-right:0.5rem" class="bi bi-plus-square-fill"></i>Yeni Ürün Ekle</a>
     </p>
+    }
+   
     <table class="table table-dark table-bordered table-striped" id="myTable">
         <thead>
             <tr>
-                <th></th>
+                @if (User.IsInRole(Diger.Role_Admin))
+                {
+                    <th></th>
+                }
+            
                 <th>
-                    İlçe Adı
+                   Mağaza Adı
                 </th>
                 <th>
-                    İl Adı
+                    Ay
                 </th>
+                <th>
+                    Yıl
+                </th>
+                <th>
+                   Ödenen Tutar
+                </th>
+             
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
+                    @if (User.IsInRole(Diger.Role_Admin))
+                    {
+                        <td>
+                            <br />
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
+                        </td>
+                    }
                     <td>
-                        <br />
-                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
+                        @Html.DisplayFor(modelItem => item.Store.CompanyName)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.Name)
+                        @Html.DisplayFor(modelItem => item.Month)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.City.Name)
+                        @Html.DisplayFor(modelItem => item.Year)
                     </td>
-
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PricePayable)
+                    </td>
+               
                 </tr>
             }
         </tbody>
     </table>
+
 </div>
 @section Scripts{
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>

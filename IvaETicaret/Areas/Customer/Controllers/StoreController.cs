@@ -155,7 +155,34 @@ namespace IvaETicaret.Areas.Customer.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
             return View(store);
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Update(Guid id)
+        {
+          var store=  _context.Stores.Where(c => c.Id == id).FirstOrDefault();
+            if (store.IsActive)
+            {
+                store.IsActive = false;
+                SenderEmail.Gonder(
+                   "İva Mağaza İptali",
+                   $"İva mağazanız olan '{store.CompanyName}' \n mağzanız iptal edilmiştir.",
+                   store.Email
+                      );
+            }
+            else
+            {
+                store.IsActive = true;
+                SenderEmail.Gonder(
+                "İva Mağza Onayı",
+                $"İva mağazanız olan '{store.CompanyName}' \n mağzanız Onaylanmıştır Göndermiş Olduğumuz '{store.Id}' keyiniz ile mağzanıza \n kullanıcı ekleyebilirsiniz \n iyi günler dileriz.",
+                store.Email
+                   );
+            }
+         
+            _context.Update(store);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof( Index));
+        }
         // GET: Customer/Store/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {

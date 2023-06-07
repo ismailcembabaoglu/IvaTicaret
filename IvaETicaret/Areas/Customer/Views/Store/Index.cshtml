@@ -7,7 +7,7 @@
     string aktifH = "Hayır";
 }
 
-<div class="container">
+
     <br />
     <h1>Mağazalar</h1>
     <hr />
@@ -59,6 +59,13 @@
                         <br />
                         <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
                         <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger"><i style="margin-right:0.5rem" class="bi bi-trash3-fill"></i>Sil</a>
+                    
+                        <form asp-action="Update">
+                            <input type="hidden" value="@item.Id" asp-for="@item.Id" />
+                        <button type="submit" asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning">Aktifleştir</button>
+                        </form>
+                   
+                        
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.RootName)
@@ -102,7 +109,7 @@
             }
         </tbody>
     </table>
-</div>
+
 @section Scripts{
         <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
         <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.2/js/jquery.dataTables.min.js"></script>
