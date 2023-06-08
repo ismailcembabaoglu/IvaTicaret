@@ -9,5 +9,6 @@ namespace IvaETicaret.Models
         public string Name { get; set; }
         public int? Keye { get; set; }
         public ICollection<County>? Counties { get; set; }
+       
     }
 }

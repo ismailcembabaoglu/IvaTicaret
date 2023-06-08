@@ -7,8 +7,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <title> IvaETicaret - @ViewData["Title"]</title>
+    <link rel="icon" type="image/x-icon" href="@Url.Content("~/images/image/logoc.ico")">
+    <title>İVA - @ViewData["Title"]</title>
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -27,9 +27,6 @@
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b"><img src="~/images/image/ivalogo2.png" width="250" height="60" /></a>
-
-
-
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -42,7 +39,7 @@
                         </li>
                         <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
                         </li>
                     
                         @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
@@ -106,7 +103,10 @@
                                                 <a class="dropdown-item" asp-area="Admin" asp-controller="Report" asp-action="Monthly">Aylık Satış Raporu</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#">Y.Mağaza Bazlı Rapor</a>
+                                                <a class="dropdown-item" asp-area="Admin" asp-controller="Report" asp-action="Year">Yıllık Satış Raporu</a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item" asp-area="Admin" asp-controller="Report" asp-action="Index">Filtreli Satış Raporu</a>
                                             </li>
                                         </ul>
 
@@ -153,13 +153,13 @@
                                         <a class="dropdown-item">Raporlar </a>
                                         <ul class="dropdown-menu dropdown-submenu">
                                             <li>
-                                                <a class="dropdown-item" asp-area="Admin" asp-controller="Report" asp-action="">Genel Satış Raporu</a>
+                                                <a class="dropdown-item" asp-area="Customer" asp-controller="BayiReport" asp-action="DayReport">Günlük Satış Raporu</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#">A.Mağaza Bazlı Rapor</a>
+                                                <a class="dropdown-item" asp-area="Customer" asp-controller="BayiReport" asp-action="Monthly">Aylık Satış Raporu</a>
                                             </li>
                                             <li>
-                                                <a class="dropdown-item" href="#">Y.Mağaza Bazlı Rapor</a>
+                                                <a class="dropdown-item" asp-area="Customer" asp-controller="BayiReport" asp-action="Year">Yıllık Satış Raporu</a>
                                             </li>
                                         </ul>
 
@@ -176,10 +176,7 @@
 
                         </div>
                     }
-
                     <partial name="_LoginPartial" />
-
-
                 </div>
             </div>
         </nav>
@@ -193,7 +190,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2023 - IvaETicaret - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            © Copyright 2023 - İva Kurye  Perakende Lojistik Anonim Şirketi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
         </div>
     </footer>
 
