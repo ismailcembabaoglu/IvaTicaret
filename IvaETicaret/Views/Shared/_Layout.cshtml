@@ -38,8 +38,11 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Ana Sayfa</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="iletisim">İletişim</a>
+                        </li> 
+                        <li class="nav-item">
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a>
                         </li>
                     
                         @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
@@ -186,11 +189,30 @@
             @RenderBody()
         </main>
     </div>
+    <br />
+    <br />
+    <br />
 
-
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted" style="margin-top:0px">
         <div class="container">
-            © Copyright 2023 - İva Kurye  Perakende Lojistik Anonim Şirketi - <a asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
+            <div class="row">
+               <div class="col">
+                   
+                </div>  
+                <div class="col">
+                    <img src="~/images/image/logo_band_colored@2x.png" height="25px" />
+                </div>
+                <div class="col">
+                   
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    © 2023 - İva - <a class="btn btn-link"  asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
+                    <a class="btn btn-link" asp-area="" asp-controller="Home" asp-action="DistanceSelling">Mesafeli Satış Sözleşmesi</a> 
+                    <a class="btn btn-link"  asp-area="" asp-controller="Home" asp-action="CancellationRefund">İade Koşulları</a>
+                </div>
+            </div>
         </div>
     </footer>
 

@@ -48,7 +48,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             //Console.Beep(38, 2000);
-          
+
             if (claim != null)
             {
                 var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).ToList().Count();
@@ -72,7 +72,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             //Include(c => c.storeAdresses.
             //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
             //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
-            if (storeadress.CountyId>0 && storeadress.DistrictId>0)
+            if (storeadress.CountyId > 0 && storeadress.DistrictId > 0)
             {
                 return RedirectToAction("StoreList", storeadress);
             }
@@ -80,7 +80,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             {
                 return RedirectToAction("Location", storeadress.DepartmentId);
             }
-          
+
         }
         public JsonResult ilcegetir(int p)
         {
@@ -98,14 +98,14 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 Text = c.Name,
                 Value = c.Id
             }).ToList();
-            return Json(mahalleler); 
+            return Json(mahalleler);
         }
         public IActionResult StoreList(StoreAdressVM storeadressvm, int p = 1)
         {
             var storeAdress = _db.StoreAdresses
                 .Include(c => c.Store)
-                .ThenInclude(c => c.Department).Include(c=>c.District)
-                .Where(c => c.CityId == storeadressvm.CityId && c.CountyId == storeadressvm.CountyId && c.DistrictId == storeadressvm.DistrictId && c.Store.Department.Id==storeadressvm.DepartmentId).ToList();
+                .ThenInclude(c => c.Department).Include(c => c.District)
+                .Where(c => c.CityId == storeadressvm.CityId && c.CountyId == storeadressvm.CountyId && c.DistrictId == storeadressvm.DistrictId && c.Store.Department.Id == storeadressvm.DepartmentId).ToList();
             //var store = _db.Stores.Include(c=>c.Department)
             //    .Where(c => c.DepartmentId == storeadressvm.DepartmentId).Include(c => c.storeAdresses.
             //    Where(c => c.CityId == storeadressvm.CityId && c.CountyId == storeadressvm.CountyId && c.DistrictId == storeadressvm.DistrictId)).ToList();
@@ -224,6 +224,22 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+        public IActionResult DistanceSellingContract()
+        {
+            return View();
+        }
+        public IActionResult CancellationRefund()
+        {
+            return View();
+        }
+        public IActionResult Hakkimizda()
+        {
+            return View();
+        }
+        public IActionResult iletisim()
         {
             return View();
         }

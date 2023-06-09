@@ -53,6 +53,11 @@
                     </div>
                     <br />
                 }
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" type="checkbox"/> <a class="link-primary" data-bs-toggle="modal" data-bs-target="#Modal1">Sözleşmeyi Oku</a>
+                    </label>
+                </div>
 
                 <div class="form-group">
                     <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Şifre" />
@@ -111,6 +116,176 @@
                     }
                 }
             </section>
+        </div>
+    </div>
+    <div class="modal fade" id="Modal1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">İva Hizmet Ve Gizlilik Sözleşmesi</h2>
+
+
+                </div>
+                <div class="modal-body">
+                    <p style="word-wrap:initial">
+                        NOT: BU KULLANIM KOŞULLARI YALNIZCA TÜRKİYEDE BULUNAN KULLANICILARA İLİŞKİNDİR. UYGULAMAYI TÜRKİYE DIŞINDA KULLANMANIZ HALİNDE BULUNDUĞUNUZ LOKASYONA GÖRE FARKLI KULLANIM KOŞULLARI GEÇERLİ OLACAKTIR. UYGULAMA BULUNDUĞUNUZ LOKASYONA GÖRE SİZİN İÇİN GEÇERLİ OLACAK KULLANIM KOŞULLARINI GÖSTERECEKTİR.
+                        1İVA KURYE  Perakende Lojistik Anonim Şirketi.
+                        Müşteri: Uygulama üzerinden mal veya hizmetlere ilişkin sipariş talebi oluşturan kişi.
+                        Taraf(lar): Müşteri veveya İVA KURYE
+                        Koşullar: Bu kullanım koşullarının tamamı.
+                        Uygulama: İVA YA ait mobil ve diğer internet bağlantısı olan cihazlarda kullanılabilen İVANIN   sunduğu Ürünlerinhizmetlerin sipariş edilebildiği tüm fikri ve sınai hakları İVAYA  ait mobil   uygulama veya web bazlı yazılım.
+                        Sözleşme: Taraflar arasındaki Ön bilgilendirme Formu ve bu formda yer alan bilgiler uyarınca    kurulan mesafeli satış sözleşmesi.
+                        Ürün(ler): İVA NIN  hizmet verdiği bölgelerde, Uygulamada yer alan seçenekler arasından,    Müşteri tarafından seçilen ve İVA PAZAR YERİ tarafından, Müşteriye sunulan hizmet veya mal.
+                        Üye İşyeri: Uygulamanın İVA KURYE  bölümünde listelenen restoranlar ve İVA MUTFAK   bölümünde listelenen satıcılar
+                        2. Başvuru ve Üyelik
+                        2.1. Kullanıcılar, Uygulamayı indirip, kayıt için gerekli olan bölümleri doldurup, GSM numarasını   onayladıktan sonra, şifresini girerek, işbu Koşullar dâhilinde Uygulamayı kullanmaya başlayabilir.
+
+                        2.2. Müşteri, başvuru esnasında verdiği tüm bilgilerin daima ve her bakımdan eksiksiz, gerçeğe    uygun ve güncel olduğunu kabul eder. Müşteri, bilgilerini her zaman Uygulama aracılığıyla güncelleyebilir
+                        Sistemi kullanan esnaflar paket paşı olarak belirtileb tutarı iva kurye sahıs şirketine günlük peşin ödemek zorundadır ayrıu zamanda iva ltd ştri şirketi iva kuryenın alt yapısısdır3. Uygulamanın Kullanımı
+                        3.1. İVA  kendi belirlediği ve Uygulama üzerinden sipariş verilebilen kapsama alanlarında teslimat yapmaktadır. Müşteri, Uygulama üzerinden teslimat adresi seçtiğinde, kendisine ilgili kapsama alanı içerisinde ve ilgili kapsama alanına özgülenmiş Ürünler gösterilir.
+
+                        3.2. Müşteriye Uygulama üzerinden gösterilen teslim süresi, İVA MUTFAK  teslimatı gerçekleştirmeyi hedeflediği tahmini ve bağlayıcı olmayan bir süredir. Ürünün hedeflenen süre içerisinde teslim edilememesinden İVA sorumlu tutulamaz.
+
+                        3.3. Ürün satış fiyatı, teslimat masrafları, taşıma araçlarına ilişkin bedeller ve diğer her türlü vergi, resim, harç gibi ek ücretler, Müşterinin seçtiği kredibanka kartından veya diğer ödeme yönteminden, Sözleşmede belirtilen şekilde tahsil edilecektir.
+
+                        3.4. Müşteri, Online Ödeme Yönetimini seçmesi durumunda, bir kereye mahsus olmak üzere kredibanka kartı bilgilerini sisteme girer ve bu bilgiler daha sonraki kullanımlarda bir daha ödeme bilgilerini girmeyi gerektirmeden kullanılır. Online ödeme sistemi altyapısı KAPIDA NAKİT ÖDEME VE KREDİ KARTI tarafından sağlanmaktadır. İVA  kredibanka kartının ilk altı hanesi ve son iki hanesini sistemlerinde muhafaza etmektedir. Müşteri, Uygulamada birden fazla kredibanka kartı ya da ödeme aracı tanımlayarak seçtiği kredibanka kartı ya da ödeme aracı ile işlem yapabilir.
+
+                        3.5. Müşterinin, siparişini getiren kuryeye, Uygulama üzerinden bahşiş ödemesi yapmak istemesi halinde, kuryeyi puanladığı sayfada yer alan bahşiş tutarlarından birini seçip ya da istediği tutarı girdikten sonra yönlendirileceği ödeme ekranında işlem yapması gerekecektir. Bahşiş Müşteri memnuniyetine bağlıdır ve tamamıyla Müşterinin isteği üzerine uygulanır. Bahşiş tutarının tamamı Müşterinin bahşiş vermeyi seçtiği kuryeye ödenecektir. İVA  bu tutarı sadece bir aracı olarak tahsil etmektedir.
+
+                        3.6. Müşteri, bahşiş tutarlarından birini seçip ya da istediği tutarı girdikten sonra Gönder tuşuna basarak, (i) Kuryeye belirtilen tutarda bahşiş vermeyi ve (ii) İVA NIN  bu tutarı ilgili sipariş verirken Online Ödeme Sistemi üzerinden kullandığı kredibanka kartı vasıtasıyla veya Müşterinin seçtiğieklediği farklı bir kartla tahsil etmesini kabul eder. Bahşiş ödemesi iptal edilemez; Gönder tuşuna basılması ile birlikte  İVA Tüm bahşiş tutarını tahsil etmiş olacaktır ve sonrasında herhangi bir iade işlemi gerçekleştirilemeyecektir.
+
+                        3.7. Müşteri, Online Ödeme Sistemi kapsamında kullanılan kredibanka kartının, kart hamili haricinde, bir başkası tarafından hukuka aykırı şekilde kullanılması halinde 23.02.2006 tarihli 5464 sayılı Banka Kartları ve Kredi Kartları Kanunu ve 01..06.2023 tarihli ve 26458 sayılı Resmi Gazetede yayımlanan Banka Kartları ve Kredi Kartları Hakkında Yönetmelik hükümlerine göre işlem yapılacağını kabul eder.
+
+                        3.8. Müşterinin Uygulamayı kullandığı cihazını kaybetmesi veya cihazın çalınması halinde, 3. Kişiler Uygulamada tanımlı kart bilgilerine erişemez. Ancak Müşterinin ivaya  bildirimde bulunması ve kartın kullanımına son vermesi gerekmektedir. Aksi takdirde üçüncü şahıslar Uygulamayı kullanarak iva  siparişi ödemesi yapmaya devam edebilirler. Böyle bir durumdan iva  kurye sorumlu tutulamaz.
+
+                        3.9. Ödeme aracı olarak kiliskartı  kullanıldığı durumlarda, Siparişin tamamı için cayma hakkının kullanılması veya başka herhangi bir sebeple Ürünlerin tamamının iadesi veya Siparişin iptal edilmesi durumunda, Müşteriye Ürün bedeli iadesi yerine ilgili iade tutarında bir veya birden fazla Ürünün bedelini ödemesine yarayan hediye çeki tanımlaması yapılacaktır.
+
+                        3.10. Müşteri, Uygulama aracılığıyla İVA  Mutfak  tarafından sunulan hizmetlerden yararlanabilmek amacıyla kullandığı sistem erişim araçlarının (kullanıcı ismi, şifre v.b.) güvenliği, saklanması, üçüncü kişilerin bilgisinden uzak tutulması ile ilgili tüm sorumluluğun tamamen kendisine ait olduğunu kabul eder. Kredibanka kartı ya da diğer ödeme araçlarına ilişkin bilgileri 3. kişiler ile paylaşmamak, bu bilgileri 3. kişiler tarafından kullanılan Uygulamaya tanımlamamak Müşterinin sorumluluğundadır.
+
+                        3.11. Müşteri, ödemeyi iva mutfağa  yapmakla ödeme yükümlülüğünü ifa etmiş sayılır. Kendisinden sipariş teslimi esnasında veya sonrasında, bahşiş ödemesi yapılması hariç olmak üzere, herhangi bir ücret talep edilmez.
+
+                        3.12. Müşteri, teslimat, ödeme, iade ve cayma hakkı gibi konularda Sözleşmede detaylı olarak bilgilendirilecektir.0
+
+                        3.13. Ürün, Müşterinin sipariş verirken bildirdiği adrese teslim edilir, sonradan adres değiştirilemez. Müşteri ya da belirlediği alıcının teslimat adresinde bulunmaması, teslim almaması veya hatalı adres bildirilmesi durumunda iva mutfak  hiçbir sorumluluk kabul etmez, bu durumda iva , edimini tam ve eksiksiz olarak yerine getirmiş kabul edilecektir. Bu nedenle, Müşterinin Ürünü geç teslim almasından kaynaklanan her türlü zarar ile Ürünün Müşterinin kusurundan dolayı beklemiş olması veveya Ürünün teslim edilememesi nedeniyle iva ya  iade edilmesinden dolayı oluşan giderler de Müşteriye aittir. İva  bu durumu suiistimal eden Müşteriye hizmet vermeyi durdurabilir.
+
+                        3.14. Uygulamada zaman zaman sosyal sorumluluk projeleri kapsamında satışlar yapılabilecektir. Aksi proje içeriğinde belirtilmediği sürece, sosyal sorumluluk projesi kapsamında yer alan Ürünler ortak çalışma yürütülen dernek veya vakfa veya proje kapsamına göre sizin belirttiğiniz farklı bir adrese gönderilebilecektir. İlgili projeler kapsamındaki Ürünler sizin adresinize gönderilmeyecektir. Sosyal sorumluluk projelerine destek olmadan önce Ürün detaylarını incelemenizi tavsiye ederiz. Bu kapsamda yapılacak olan teslimatlar cayma hakkına konu olamayabilecektir. Sosyal sorumluluk projelerimiz hakkında detaylı bilgiye https:iva kurye..comsosyal-sorumluluk-projeleri adresinden ulaşabilirsiniz.
+
+                        3.15. Müşteri, Siparişe ilişkin tüm şikayetlerini iva  müşteri hizmetlerin+ 05399493339 numaralı telefon üzerinden aktarabilir.
+
+                        3.16. iva mutfağın  sunduğu hizmetten yararlanan Müşteri, Uygulamayı hukuka ve amacına uygun şekilde kullanmayı ve Uygulama dahilinde yaptığı her işlem ve eylemdeki hukuki sorumluluğunun kendisine ait olduğunu kabul eder. Müşterinin Uygulama aracılığıyla veveya dahilinde, Koşullara ve hukuka aykırı olarak gerçekleştirdiği herhangi bir işlem, eylem veveya faaliyetleri nedeniyle iva kurye  doğrudan veya dolaylı olarak hiçbir şekilde sorumlu tutulamaz.
+
+                        3.17. iva mutfak  , Müşteriden kaynaklanan teknik aksaklıklar sebebiyle hizmetten faydalanılamaması durumunda yükümlülüklerini ifa edememesi nedeniyle sorumlu tutulamayacak ve kendisinden herhangi bir nam altında herhangi bir talepte bulunulamayacaktır.
+
+                        3.18. Müşteri, Uygulama üzerinde verilen tüm siparişlerin, yapılan alışverişlerin kişisel kullanım ve tüketim amaçlı olarak son kullanıcıya yapıldığını, tekrar satış amaçlı olmadığını kabul eder.
+
+                        3.19. Müşteri, Uygulama üzerinden Tütün Mamulleri ve Alkollü İçkilerin Satışına ve Sunumuna İlişkin Usul ve Esaslar Hakkında Yönetmelik ve ilgili mevzuat uyarınca, tütün mamulleri ve alkollü içecek satışının yapılmadığını, Uygulama vasıtası ile bunları temine yönelik herhangi bir talepte bulunmayacağını kabul eder.
+
+                        3.20. Müşterinin Üye İşyerinden sipariş vermesi halinde, sipariş Üye İşyeri tarafından hazırlanarak Müşterinin seçtiği teslimat yöntemine uygun şekilde teslim edilecektir. Siparişe ilişkin fiş veya fatura Üye İşyeri tarafından hazırlanarak sipariş ile birlikte Müşteriye teslim edilir.
+
+                        3.21. Müşteri, iva kuryeveya iva mutfak  üzerinden Üye İşyerine ait Ürünhizmeti sipariş ettiğinde, iva sadece bir aracı olarak hareket eder ve bu nedenle Üye İşyeri tarafından sunulan ürünhizmetlerin kalitesinden, doğru sağlanmasından ya da Üye İşyerinin Müşteriye Uygulama üzerinden sunduğu Ürünhizmetler nedeniyle vermiş olduğu zararın tazmininden sorumlu olamaz.
+
+                        3.22. iva mutfak üzerinden verilen siparişlerinde, ücret iadesi ancak; (i) siparişin ilgili restorana iletilememesi veya restoranın aşırı yoğunluk, kurye bulunmaması, elektrik arızası, kaza gibi haller nedeniyle siparişi hazırlayabilecek ya da teslim edebilecek durumda olmaması nedeniyle siparişin zorunlu iptali; (ii) sipariş halen hazırlanmamış iken, Müşterinin talebi ve Üye İşyerinin kabulü üzerine iptali; (iii) siparişin bir kısmının veya tamamının Üye İşyerinde mevcut olmaması nedeniyle siparişin kısmen veya tamamen zorunlu iptali; (iv) sipariş edilen Ürünün teslimatının gecikmesi durumunda ilgili Üye İşyerinin onayı üzerine iptali; (v) yanlış, hasarlı ya da ayıplı Ürün nedeniyle iptali; ya da (vi) memnuniyetsizlik halinde Üye İşyerinin onayı üzerine gerçekleştirilecek iptali durumunda yapılacaktır.
+
+                        3.23.iva mutfak  üzerinden verilen siparişlerde, siparişin iptali veya iadesi ancak; (i) siparişin ilgili Üye İşyerne iletilememesi veya Üye İşyerinin aşırı yoğunluk, kurye bulunmaması, elektrik arızası, kaza gibi haller nedeniyle siparişi hazırlayabilecek ya da teslim edebilecek durumda olmaması nedeniyle siparişin zorunlu iptali; (ii) sipariş halen hazırlanmamış iken, Müşterinin talebi ve Üye İşyerinin kabulü üzerine iptali; (iii) siparişin bir kısmının veya tamamının Üye İşyerinde mevcut olmaması nedeniyle siparişin kısmen veya tamamen zorunlu iptali; (iv) sipariş edilen Ürünün teslimatının gecikmesi durumunda ilgili Üye İşyerinin onayı üzerine iptali; (v) yanlış, hasarlı ya da ayıplı Ürün nedeniyle iptali; (vi) memnuniyetsizlik halinde Üye İşyerinin onayı üzerine gerçekleştirilecek iptali durumunda ve (vii) Sözleşmeden kaynaklanan cayma hakkının uygun şekilde kullanılması durumunda gerçekleştirilebilecektir. Cayma hakkının kullanılamayacağı Ürünhizmetler Sözleşmede belirtilmektedir. Bu kapsamda, iva veya Üye İşyeri ilgili siparişin tamamına veya bir kısmına ilişkin iptal ve iadeyi kabul etmeyebilecek ve ücret iadesi yapmayabilecektir.
+
+                        3.24. İptal ve iadelerde ücret iadesi, Müşterinin seçtiği ödeme yöntemine göre değişiklik gösterebilecektir. Kredibanka kartlarıyla yapılan ödemelere ilişkin iadeler, ilgili bankaların prosedürlerine göre yapılacaktır.
+
+                        3.25.iva mutfak  üzerinden verilen siparişinin, tesliminden sonra, Müşteriye yanlış veya eksik Ürün teslimi nedeniyle yapılacak ücret iadelerinde, iptale konu siparişe ilişkin ilgili Üye İşyeri bir fiş veya fatura düzenlemiş ve bu Müşteriye teslim edilmiş ise, söz konusu fiş ya da faturanın da iva ya  iadesi gerekmektedir.
+
+                        3.26. iva mutfak üzerinden verilen yemek siparişlerinde, teslimat Üye İşyerinin menülerinin sipariş anındaki mevcudiyetiyle sınırlıdır. İva  veya Üye İşyeri, ilgili Üye İşyerinde bulunmayan Ürünlerin Müşteriye teslimini sağlayamayabilir. Ürünlerin Uygulamada teşhir edilmesi bunların Üye İşyerinin stoğunda bulunduğu anlamına gelmeyebilir.
+
+                        3.27. Uygulama üzerinden satışa sunulan Üye İşyerine ait Ürünhizmetlerin fiyat veya Ürün özelliklerinde hata olması durumunda iva Müşteriyi bilgilendirerek, bu hatayı düzeltecek şekilde teslimatı yapabilir veya siparişi iptal edebilir. Uygulama üzerinden Üye İşyerinin satışa sunduğu Ürünlerin içeriğine dair doğru ve dürüst açıklama yapılmasına dair iva gerekli özeni gösterecektir ancak Üye İşyerinin sipariş içeriklerine dair yaptıkları eksik veveya hatalı açıklamalardan dolayı oluşacak problemlerden veya zararlardan iva sorumlu olmayacaktır.
+
+                        3.28. 01.06.2023tarihi itibariyle yaptığınız yorumlar, uygun görülmesi halinde iva  tarafından yayınlanabilecektir.
+
+                        3.29. Uygulamada paylaşılan içeriklereyorumlara ilişkin olarak; içeriklerin yorumunların doğruluk, kalite, hukuka uygunluk, yerindelik, güvenilirlik, nitelik başta olmak üzere bütün özelliklerinden yalnızca Müşteri sorumludur.
+
+                        3.30. Yorumların hukuka uygun olup olmadığını veya bu Kullanım Koşullarını ihlal edip etmediğini(yasadışı içeriklerin tarafımıza bildirildiği durumlar gibi) belirlemek ve yasal yükümlülüklere uyum sağlamak adına, iva mutfağın ve iva kuryenin yorumları inceleyebilecektir. Ayrıca yasaları veveya bu iş bu Koşulları ihlal ettiği düşünülen içerikler, iva  tarafından değiştirilebilir, silinebilir, bu içeriklere yönelik erişimgörüntüleme engellenebilir. İva yorumları yayınlamama hakkı saklıdır.
+                        İva  yorum ve puanlama işlemlerinin amacına aykırı ve kötüye kullanıldığının tespit edilmesi halinde Müşterinin üyeliğini askıya alma veya Uygulamadan tamamen çıkarma hakkını saklı tutar.
+
+                        3.31. Müşteriler, Uygulamada gerçekleştireceği işlemlerde aşağıdaki kapsamda yorum, paylaşım ve diğer içerikler paylaşamazlar:
+                        •	Sakıncalı veya yasalara aykırı her türlü içerik.
+                        •	Diğer kullanıcılar veveya üçüncü kişiler için zarar verici, hakaret içerikli, kişilik haklarını zedeleyen veveya kırıcı içerikler.
+                        •	Herhangi bir kişi veya kurumu tehdit eden içerikler.
+                        •	Herhangi bir kişiye yönelik saldırgan veya zarar verici içerikler
+                        •	Kullanıcıların genelini rahatsız edenedebilecek olan içerikler.
+                        •	Tek bir kullanıcı tarafından sürekli olarak paylaşılan, konu ve sayfa içeriği ile alakasız içerikler.
+                        •	Bir veya birden çok kullanıcı tarafından paylaşılan birbirinin aynısı içerikler (spam).
+                        •	Bir başka marka veya kurum adına reklam içerikleri.
+                        •	Yasa dışı girişimleri destekleyen ve teşvik eden her türlü yorum, bağlantı ve içerikler.
+                        •	Herhangi bir üçüncü şahıs veya kurumun haklarını çiğneyen her türlü içerik.
+
+                        3.32. Uygulamada sağlanan her türlü içeriktenyorumdan Müşteri münhasıran sorumludur. Paylaşılan herhangi bir Müşteri içeriğininyorumunun (i) yasalara uygun olduğunu; (ii) üçüncü şahısların fikri mülkiyet hakları dahil olmak üzere herhangi bir hakkını ihlal etmediğini; ve (iii) içeriği sağlamak için gerekli tüm haklara ve yetkilere sahip olduğunuzu beyan edersiniz.
+
+                        3.33. Uygulamada listelenen kampanyalar; anlık, bölgesel, kişiye özel, ürün ya da ödeme seçeneği bazlı düzenlenebilmektedir. Tek veya sınırlı sayıda tanımlanan kampanyalarımızın kullanımı; iva hesabı, cihaz, kredi kartı, e-posta adresi, lokasyon ve benzeri bilgilere bağlı olarak çoklu kampanya kullanımını veya kötüye kullanımı önleme maksadıyla sınırlandırılabilir.
+
+                        3.34. Uygulama içerisinde iva kontrolünde olmayan internet sitelerine veya içeriklere linkler verilebilir. Site üzerinde linkler vasıtasıyla erişilen portallar veya internet sitelerinde sunulan hizmetler, ürünler veya bunların içeriği hakkında iva herhangi bir sorumluluğu bulunmamaktadır.
+
+                        3.35. Üye uygulama içerisinden vakıf yalçının  iletişim kanallarından üyeliğini silme imkanına sahiptir. İva üyeliği silindikten sonra, silinen hesaba ait telefon numarasıyla yeniden bir hesap açılması halinde Üye, kendisine daha önceden tanımlanmış kampanyalara erişemeyebileceğini kabul eder. Üyenin bu kapsamda iva  herhangi bir talebi olmayacaktır.
+
+                        İva kurye
+                        Müşterinin iva kurye  hizmetini kullanması halinde aşağıdaki hükümler Taraflar arasında geçerli olacaktır. İva kurye hizmeti mobil uygulama üzerinden sunulmaktadır.
+
+                        4.1 Kullanım Koşulları
+                        İva kurye Kullanım Koşullarına aşağıdaki bağlantı üzerinden erişebilirsiniz:
+                        iva kurye  Kullanım Koşulları
+
+                        4.2 iva kurye Kişisel Verilerin Korunması iva hizmeti kapsamında kişisel verilerinize ilişkin aydınlatma
+                        iva kurye Aydınlatma Metni
+
+                        iva mutfak  Aydınlatma Metni
+
+
+                        7. Kişisel Verilerin Korunması
+                        7.1. iva  kişisel verilerinizin korunmasına yüksek önem vermektedir. Kişisel verilerinize ilişkin düzenlemelere erişmek için aşağıdaki bağlantılara tıklayabilirsiniz:
+                        1.	Kişisel Verilerinizin Korunmasına İlişkin Aydınlatma Metni
+                        2.	Müşteri Kişisel Verilerinin Korunması Politikası
+                        7.2. Müşteri, Uygulamada oluşturulmuş her bir kullanıcı için yalnızca bir adet GSM numarası tanımlanabileceğini, tanımlanan GSM numarasının değiştirilemeyeceğini, yeni bir GSM numarasının ancak Uygulama üzerinde yeni bir kullanıcı oluşturulması halinde tanımlatılabileceğini, kayıtlı GSM numarasıyla yapacağı her türlü işlemden bizzat kendisinin sorumlu olduğunu; kabul, beyan ve taahhüt eder.
+
+                        7.3. Müşteri, üyeliği kapsamında iva  ile paylaştığı tüm kişisel verilerin (ad-soyadı, adres, GSM numarası vb.) kendisine ait olduğunu, üçüncü kişilerin kişisel verilerini iva  ile paylaşması halinde bu kişilerin bilgisi ve onayı dahilinde hareket ettiğini, paylaştığı kişisel verilerin doğru ve güncel olduğuna ilişkin sorumluluğun kendisine ait olduğunu kabul, beyan ve taahhüt eder.
+
+                        7.4. Müşteri, Kişisel Verilerinizin Korunmasına İlişkin Aydınlatma Metni doğrultusunda üyeliğinin silinmesini talep edebilir. İva  üyeliği silindikten sonra, Müşteri, silinen üyeliği tekrar aktif hale getiremeyecek ve üyelik bilgilerine Uygulama üzerinden erişemeyecektir. Kısa süre önce silinen üyeliklerle bağlantılı telefon numaraları üzerinden yeni üyelik oluşturulmasının, Uygulamanın güvenliği için dahili sistemlerimiz tarafından belirlenen süre boyunca otomatik olarak askıya alınacağını lütfen unutmayın.
+
+                        8. Sona Erme
+                        8.1. Müşteri, Uygulamayı dilediği zaman yüklediği cihazdan silerek kullanımına son verebilir.  İva dilediği zaman hizmetlerini askıya alma veya durdurma hakkı saklıdır.
+
+                        8.2. Müşterinin  belirtilen Koşullara, amaca, ilgili mevzuata veya iyi niyetahlak kurallarına aykırı davrandığının tespiti halinde veya güvenlikten şüphe edilen durumlarda, iva  Müşterinin üyeliğini askıya alma veya Uygulamadan tamamen çıkarma hakkını saklı tutar.
+
+                        8.3. Müşteri üyeliğin askıya alınmasını isteyebilir. Üyeliğin askıya alınması, Müşterinin üyelik yeniden aktifleştirilene kadar bilgileriyle Uygulamada üyeliğe giriş yapamayacağı anlamına gelir. Üyelik askıya alındığında, üyelik altındaki adresler ve ödeme hizmeti sağlayıcılarıyla olan bağlantılar (bağlı kartlar) silinecektir.
+
+                        9. Fikri Mülkiyet Hakları
+                        9.1. iva mutfağın ve iva kuryenin  hizmetleri, fikri mülkiyet hakları, iva  ticari markaları, iva  ticari görünümü veya Uygulamanın tasarım, metin, imge, html kodu ve diğer kodlar da dahil fakat bunlarla sınırlı olmamak kaydıyla, tüm unsurları, her tür ayni ve şahsi hakları, ticari bilgi ve know-howa yönelik tüm hakları münhasıran iva ya aittir.
+
+                        9.2. Müşteri, mutfak  hizmetlerini ve iva kurye hizmetlerini  yukarıda sayılan çalışmalarını ticari amaçla kullanamaz, çoğaltamaz, dağıtamaz veya bunlardan türetilmiş çalışmalar yapamaz veya hazırlayamaz.
+
+                        9.3. Müşteri, Uygulama dahilinde bulunan, iva  veya başka bir üçüncü kişilere ait resimleri, metinleri, görsel ve işitsel simgeleri, video kliplerini, dosyaları, veri tabanlarını, katalogları ve listeleri çoğaltmayacağını, kopyalamayacağını, dağıtmayacağını, işlemeyeceğini kabul eder.
+
+                        10. Değişiklikler
+                        İva  tamamen kendi takdirine bağlı ve tek taraflı olarak,  Koşulları, uygun göreceği herhangi bir zamanda, Uygulama üzerinden ilan ederek değiştirebilir.
+
+                        11. Mücbir Sebepler
+                        Nakliyeyi engelleyen hava muhalefetleri, ulaşım kesintisi, altyapı ve internet arızaları, yangın, deprem, sel baskını, diğer doğal afetler ile salgın hastalık gibi olağanüstü olayları, kargaşa, yaygın şiddet hareketleri, grev veya resmi makamların düzenlemeleri dahil ancak bunlarla sınırlı olmaksızın yükümlülüklerini yerine mesini objektif olarak engelleyebilecek veya geciktirebilecek nitelikteki durumlarda iva  işbu Koşullar ile belirlenen edimlerinden herhangi birini geç veya eksik ifa etme veya ifa etmeme nedeniyle sorumlu tutulamaz.
+
+                        12. Uygulanacak Hukuk Ve Yetki
+                        12.1. İşbu Koşullar Türkiye Cumhuriyeti yasalarına tabi olacak ve onlara göre yorumlanacaktır.
+
+                        12.2. Taraflar, Koşullardan doğan ihtilaflarda mevzuat çerçevesinde belirlenen parasal sınırlar dahilinde Müşteri ve ivanın kayıtlı adresinin bulunduğu yerdeki tüketici hakem heyetlerinin, parasal sınırları aşan uyuşmazlıklarda Müşterinin ve ivaya  bulunduğu yerdeki tüketici mahkemelerinin yetkili olacağını kabul etmiştir.
+
+                        12.3. Uyuşmazlığın tüketici uyuşmazlığı olmaması halinde, İstanbul Merkez (Çağlayan) Mahkemeleri ve İcra Daireleri yetkili olacaktır.
+
+                        13. Delil Sözleşmesi
+                        Taraflar, Koşullardan doğabilecek her türlü ihtilafta iva  resmi defter ve ticari kayıtlarıyla, veritabanında ve sunucularında tuttuğu elektronik bilgilerin, bilgisayar ve ses kayıtlarının, delil teşkil edeceğini, bu maddenin Hukuk Muhakemeleri Kanununun 193. maddesi anlamında delil sözleşmesi niteliğinde olduğunu kabul eder.
+
+                        14. Yürürlük
+                        Müşteri Uygulamayı cihazına yüklemesi, üyelik oluşturması ve kullanması esnasında işbu Koşullara tabi tutulur
+
+
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Okudum Anladım.</button>
+                </div>
+            </div>
         </div>
     </div>
 }

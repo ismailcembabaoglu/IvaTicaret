@@ -1,4 +1,7 @@
-﻿using System.Net.Mail;
+﻿using System.Net;
+using System.Net.Mail;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 
 namespace IvaETicaret.Email
 {
@@ -7,7 +10,7 @@ namespace IvaETicaret.Email
         public static void Gonder(string konu, string icerik, string GondMail)
         {
             MailMessage ePosta = new MailMessage();
-            ePosta.From = new MailAddress("cib_1742@hotmail.com");
+            ePosta.From = new MailAddress("info@ivaheryerde.com.tr");
             //
             ePosta.To.Add(GondMail);
             //ePosta.To.Add("eposta2@gmail.com");
@@ -19,14 +22,19 @@ namespace IvaETicaret.Email
             ePosta.IsBodyHtml = true;
             SmtpClient smtp = new SmtpClient();
             smtp.Port = 587;
-            smtp.Host = "smtp.office365.com";
+            smtp.Host = "mail.ivaheryerde.com.tr";
+            smtp.UseDefaultCredentials = false;
             smtp.EnableSsl = true;
-            smtp.Credentials = new System.Net.NetworkCredential("cib_1742@hotmail.com", "Cib_1453");
+            smtp.Credentials = new System.Net.NetworkCredential("info@ivaheryerde.com.tr", "Cib_17421");
 
             // object userState = ePosta;
             bool kontrol = true;
             try
             {
+                ServicePointManager.ServerCertificateValidationCallback = delegate (object s, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                {
+                    return true;
+                };
                 // smtp.SendAsync(ePosta, (object)ePosta);
                 smtp.Send(ePosta);
 
