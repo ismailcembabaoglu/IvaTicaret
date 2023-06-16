@@ -21,7 +21,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // GET: Customer/District
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Districts.Include(d => d.County);
+            var applicationDbContext = _context.Districts.Include(d => d.County).OrderByDescending(c=>c.CountyId);
             return View(await applicationDbContext.ToListAsync());
         }
 

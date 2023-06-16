@@ -10,9 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.Kiota.Abstractions;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -29,6 +32,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             _db = db;
             _emailSender = emailSender;
             _userManager = userManager;
+
         }
         //Sipariş Başlığı Sayfası
         public IActionResult Sumary()
@@ -38,7 +42,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             ShoppingCartVM = new ShoppingCartVM()
             {
                 OrderHeader = new OrderHeader(),
-                ListCart = _db.ShoppingKarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product).ThenInclude(c=>c.Category)
+                ListCart = _db.ShoppingKarts.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.Product).ThenInclude(c => c.Category)
 
             };
 
@@ -81,60 +85,61 @@ namespace IvaETicaret.Areas.Customer.Controllers
             model.OrderHeader.Adress = adress;
             ShoppingCartVM.ListCart = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product);
             ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Beklemede;
+            ShoppingCartVM.OrderHeader.Odendimi = Diger.Durum_Odenmedi;
             ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
             ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-          
-                _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
-                _db.SaveChanges();
-                foreach (var item in ShoppingCartVM.ListCart)
-                {
-                    item.Price = item.Product.Price;
-                    OrderDetail orderDetail = new OrderDetail
-                    {
-                        ProductId = item.ProductId,
-                        OrderId = ShoppingCartVM.OrderHeader.Id,
-                        Price = item.Price,
-                        Count = item.Count,
 
-                    };
-                    ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
-                    model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
-                    _db.OrderDetails.Add(orderDetail);
-
-                }
-                var payment = PaymentProcess(model);
-            if (payment.Status=="success")
+            _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
+            _db.SaveChanges();
+            foreach (var item in ShoppingCartVM.ListCart)
             {
-                _db.ShoppingKarts.RemoveRange(ShoppingCartVM.ListCart);
+                item.Price = item.Product.Price;
+                OrderDetail orderDetail = new OrderDetail
+                {
+                    ProductId = item.ProductId,
+                    OrderId = ShoppingCartVM.OrderHeader.Id,
+                    Price = item.Price,
+                    Count = item.Count,
+
+                };
+                ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                _db.OrderDetails.Add(orderDetail);
+
+            }
+            var payment = PaymentProcess(model);
+            if (payment.Status == "success")
+            {
                 _db.SaveChanges();
                 HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
-                return RedirectToAction("SiparisTamam");
+                return RedirectToAction("Gonder", payment);
             }
-            else
-            {
-                _db.OrderHeaders.RemoveRange(ShoppingCartVM.OrderHeader);
-                return RedirectToAction("KartHata");
-            }
-       
+           
+
+
+            return RedirectToAction("Hata");
+
         }
         //sanal pos
-        private Payment PaymentProcess(ShoppingCartVM model)
+        private ThreedsInitialize PaymentProcess(ShoppingCartVM model)
         {
-            Options options = new Options();
-            options.ApiKey = "sandbox-9E4zw5Qm3seFVg8LWLwaGSnrPQC86ZBS";
-            options.SecretKey = "sandbox-fwJkD2yR0RjUSXi7XiThZtmMHFSx5L7k";
-            options.BaseUrl = "https://sandbox-api.iyzipay.com";
 
+            Iyzipay.Options options = new Iyzipay.Options();
+            options.ApiKey = "I8wDLNS5lMPJYO8uuLAjiIOTIKmWZ4wz";
+            options.SecretKey = "0m0r7fNpzCoTMT7vhmdApdDJufKN80b0";
+            options.BaseUrl = "https://api.iyzipay.com";
             CreatePaymentRequest request = new CreatePaymentRequest();
             request.Locale = Locale.TR.ToString();
-            request.ConversationId =new Random().Next(1111,9999).ToString();
+            request.ConversationId = new Random().Next(1111, 9999).ToString();
             request.Price = model.OrderHeader.OrderTotal.ToString();
-            request.PaidPrice = model.OrderHeader.OrderTotal.ToString(); 
+            request.PaidPrice = model.OrderHeader.OrderTotal.ToString();
             request.Currency = Currency.TRY.ToString();
             request.Installment = 1;
             request.BasketId = "B67832";
             request.PaymentChannel = PaymentChannel.WEB.ToString();
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
+            request.CallbackUrl = HtmlEncoder.Default.Encode(Url.Action("Save", "Cart", values: new { area = "Customer" },
+                protocol: Request.Scheme));
 
             //PaymentCard paymentCard = new PaymentCard();
             //paymentCard.CardHolderName = "John Doe";
@@ -158,7 +163,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             buyer.Id = model.OrderHeader.Id.ToString();
             buyer.Name = model.OrderHeader.ApplicationUser.Name;
             buyer.Surname = model.OrderHeader.ApplicationUser.Surname;
-            buyer.GsmNumber = model.OrderHeader.ApplicationUser.PhoneNumber; 
+            buyer.GsmNumber = model.OrderHeader.ApplicationUser.PhoneNumber;
             buyer.Email = "email@email.com";
             buyer.IdentityNumber = "74300864791";
             buyer.LastLoginDate = "2015-10-05 12:43:35";
@@ -189,29 +194,65 @@ namespace IvaETicaret.Areas.Customer.Controllers
             List<BasketItem> basketItems = new List<BasketItem>();
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            foreach (var item in _db.ShoppingKarts.Where(c=>c.ApplicationUserId==claim.Value).Include(c=>c.Product))
+            foreach (var item in _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product))
             {
                 basketItems.Add(new BasketItem()
                 {
                     Id = item.Id.ToString(),
                     Name = item.Product.Title,
                     Category1 = item.Product.CategoryId.ToString(),
-                    ItemType=BasketItemType.PHYSICAL.ToString(),
-                    Price=(item.Price * item.Count).ToString()
+                    ItemType = BasketItemType.PHYSICAL.ToString(),
+                    Price = (item.Product.Price * item.Count).ToString(),
+                    SubMerchantKey = "4OYrmmtJoUikRdtUojTeLPReUcc=",
+                    SubMerchantPrice = (item.Product.Price * item.Count).ToString(),
+
                 });
             }
-            request.BasketItems = basketItems;
 
-          return Payment.Create(request, options);
+            request.BasketItems = basketItems;
+            ThreedsInitialize threedsInitialize = ThreedsInitialize.Create(request, options);
+
+
+
+            return threedsInitialize;
         }
+
 
         public IActionResult SiparisTamam()
         {
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            orderHeader.Odendimi = Diger.Durum_Odendi;
+            _db.OrderHeaders.UpdateRange(orderHeader);
+            var orderDetails = _db.OrderDetails.Where(c => c.OrderId == orderHeader.Id);
+            _db.ShoppingKarts.RemoveRange(_db.ShoppingKarts.Where(c=>c.ApplicationUserId==claim.Value));
             return View();
-        } 
-        public IActionResult KartHata()
+        }
+        public IActionResult KartHata(string message)
         {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            var orderDetails = _db.OrderDetails.Where(c => c.OrderId == orderHeader.Id);
+            _db.OrderDetails.RemoveRange(orderDetails);
+            _db.OrderHeaders.RemoveRange(orderHeader);
+            _db.SaveChanges();
+            ViewBag.msg = message;
             return View();
+        }
+        public IActionResult Hata()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            _db.OrderHeaders.RemoveRange(orderHeader);
+            _db.SaveChanges();
+            return RedirectToAction("Sumary");
         }
         //Sepetteki Ürünler Sayfası
         public IActionResult Index()
@@ -261,6 +302,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         //Doğrulama Mailinin gittiğine Dair sayfa
         public IActionResult Success()
         {
+
             return View();
         }
         //Spetteki ürünün sayısını Arttırma
@@ -302,6 +344,37 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
 
             return RedirectToAction(nameof(Index));
+        }
+        public IActionResult Gonder(ThreedsInitialize threedsInitialize)
+        {
+            if (threedsInitialize.Status== "failure")
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+                _db.OrderHeaders.RemoveRange(orderHeader);
+                _db.SaveChanges();
+            }
+            ViewBag.trc = threedsInitialize.HtmlContent;
+            return View();
+        }
+        public IActionResult Save(CreateThreedsPaymentRequest request)
+        {
+            Iyzipay.Options options = new Iyzipay.Options();
+            options.ApiKey = "I8wDLNS5lMPJYO8uuLAjiIOTIKmWZ4wz";
+            options.SecretKey = "0m0r7fNpzCoTMT7vhmdApdDJufKN80b0";
+            options.BaseUrl = "https://api.iyzipay.com";
+
+            CreateThreedsPaymentRequest _request = new CreateThreedsPaymentRequest();
+            _request = request;
+            ThreedsPayment threedsPayment = ThreedsPayment.Create(_request, options);
+            if (threedsPayment.Status == "success")
+            {
+                return RedirectToAction("SiparisTamam");
+            }
+
+            return RedirectToAction("KartHata");
         }
 
     }

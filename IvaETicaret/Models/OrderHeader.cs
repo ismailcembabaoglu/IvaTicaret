@@ -31,16 +31,17 @@ namespace IvaETicaret.Models
         public Guid StoreId { get; set; }
         [ForeignKey("StoreId")]
         public Store Store { get; set; }
-        [Required]
-        public string CartName { get; set; }
-        [Required]
-        public string CartNumber { get; set; }
-        [Required]
-        public string ExpirationMonth { get; set; }
-        [Required]
-        public string ExpirationYear { get; set; }
-        [Required]
-        public string Cvc { get; set; }
+       
+        public string? CartName { get; set; }
+       
+        public string? CartNumber { get; set; }
+
+        public string? ExpirationMonth { get; set; }
+    
+        public string? ExpirationYear { get; set; }
+        
+        public string? Cvc { get; set; }
+        public string? Odendimi { get; set; }
 
     }
 }

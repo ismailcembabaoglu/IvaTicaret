@@ -13,9 +13,15 @@
                     <div class="card-header" style="font-size:large">
                         <a class="navbar-brand" style="color:#212529">@item.Store.CompanyName</a>
                     </div>
-                    @*      <a asp-action="Category" asp-controller="Home" asp-route-id="@item.StoreId">*@
-                    <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:150px" />
-                    @*      </a>*@
+                    @if (item.Store.Image != null)
+                    {
+                        <img src="@item.Store.Image" class="card-img-top" alt="" style="height:200px" />
+                    }
+                    else
+                    {
+                        <img src="~/images/image/resim-yok-png-2-300x300.png" class="card-img-top" alt="" style="height:200px" />
+                    }
+              
 
                     @if (item.Store.StoreIsActive)
                     {

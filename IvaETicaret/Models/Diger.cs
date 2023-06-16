@@ -13,8 +13,11 @@
 
         //Siparis Durumları
         public const string Durum_Hazirlaniyor = "Hazırlanıyor";
+        public const string Durum_Iptal = "İptal Edildi";
         public const string Durum_Beklemede = "Beklemede";
         public const string Durum_YolaCikti = "Yola Çıktı";
         public const string Durum_TeslimEdildi = "Sipariş Teslim Edildi";
+        public const string Durum_Odendi = "Ödeme Yapıldı";
+        public const string Durum_Odenmedi = "Ödeme Geçersiz";
     }
 }

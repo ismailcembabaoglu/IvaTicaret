@@ -26,17 +26,17 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             if (!String.IsNullOrEmpty(q))
             {
-                var ara = _db.Products.Where(c => c.Title.Contains(q) || c.Description.Contains(q));
-                if (ara.ToList().Count() > 0)
-                {
-                    var bag = _db.Categories.FirstOrDefault(c => c.Id == ara.FirstOrDefault().CategoryId);
-                    var department = _db.Departments.FirstOrDefault(c => c.Id == bag.Id);
-                    ViewBag.Id = department.Id;
-                }
-                else
-                {
-                    return RedirectToAction("Index");
-                }
+                var ara = _db.Products.Where(c => c.Title.Contains(q) || c.Description.Contains(q)).Include(c=>c.Category).ThenInclude(c=>c.Store);
+                //if (ara.ToList().Count() > 0)
+                //{
+                //    var bag = _db.Categories.FirstOrDefault(c => c.Id == ara.FirstOrDefault().CategoryId);
+                //    var department = _db.Categories.FirstOrDefault(c => c.Id == bag.Id);
+                //    ViewBag.Id = department.Id;
+                //}
+                //else
+                //{
+                //    return RedirectToAction("Index");
+                //}
                 return View(ara.ToPagedList(p, 40));
 
             }
@@ -72,6 +72,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             //Include(c => c.storeAdresses.
             //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
             //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
+          
             if (storeadress.CountyId > 0 && storeadress.DistrictId > 0)
             {
                 return RedirectToAction("StoreList", storeadress);
@@ -204,7 +205,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }
             if (Id != null)
             {
-                var product = _db.Products.Where(i => i.CategoryId == Id);
+                var product = _db.Products.Where(i => i.CategoryId == Id && i.Active);
 
                 ViewBag.KategoriId = Id;
                 ViewBag.storeId = StoreId;

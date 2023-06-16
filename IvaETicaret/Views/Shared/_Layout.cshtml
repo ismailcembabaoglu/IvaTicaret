@@ -26,7 +26,7 @@
 
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b"><img src="~/images/image/ivalogo2.png" width="250" height="60" /></a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b"><img src="~/images/image/Analogo.jpg" width="250" height="60" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -163,6 +163,7 @@
                                             </li>
                                             <li>
                                                 <a class="dropdown-item" asp-area="Customer" asp-controller="BayiReport" asp-action="Year">Yıllık Satış Raporu</a>
+                                                <a class="dropdown-item" asp-area="Customer" asp-controller="BayiReport" asp-action="Index">Yıllık Satış Raporu</a>
                                             </li>
                                         </ul>
 
@@ -192,8 +193,9 @@
     <br />
     <br />
     <br />
+    <br />
 
-    <footer class="border-top footer text-muted" style="margin-top:0px">
+    <footer class="border-top footer text-muted">
         <div class="container">
             <div class="row">
                <div class="col">
@@ -208,9 +210,8 @@
             </div>
             <div class="row">
                 <div class="col">
-                    © 2023 - İva - <a class="btn btn-link"  asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a>
-                    <a class="btn btn-link" asp-area="" asp-controller="Home" asp-action="DistanceSelling">Mesafeli Satış Sözleşmesi</a> 
-                    <a class="btn btn-link"  asp-area="" asp-controller="Home" asp-action="CancellationRefund">İade Koşulları</a>
+                    ©2023-İva <a class="btn btn-link"  style="font-size:10px"  asp-area="" asp-controller="Home" asp-action="Privacy">Gizlilik Politikası</a><a class="btn btn-link" style="font-size:10px" asp-area="" asp-controller="Home" asp-action="DistanceSellingContract">Mesafeli Satış Sözleşmesi</a> 
+                    <a class="btn btn-link" style="font-size:10px" asp-area="" asp-controller="Home" asp-action="CancellationRefund">İade Koşulları</a>
                 </div>
             </div>
         </div>

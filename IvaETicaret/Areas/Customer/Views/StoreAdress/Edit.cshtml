@@ -5,9 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
-
-<h4>StoreAdress</h4>
+<h4>Mağaza Adres Düzenle</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -15,27 +13,27 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
-                <label asp-for="StoreId" class="control-label"></label>
+                <label asp-for="StoreId" class="control-label">Mağaza</label>
                 <select asp-for="StoreId" class="form-control" asp-items="ViewBag.StoreId"></select>
             </div>
             <div class="form-group">
-                <label asp-for="CityId" class="control-label"></label>
+                <label asp-for="CityId" class="control-label">İl</label>
 
                 <select asp-for="CityId" id="DrpSehir" class="form-control" asp-items="ViewBag.CityId"></select>
                 <span asp-validation-for="CityId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CountyId" class="control-label"></label>
+                <label asp-for="CountyId" class="control-label">İlçe</label>
                 <select asp-for="CountyId" id="Drpilce" class="form-control"></select>
                 <span asp-validation-for="CountyId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DistrictId" class="control-label"></label>
+                <label asp-for="DistrictId" class="control-label">Mahalle</label>
                 <select asp-for="DistrictId" id="Drpmahalle" class="form-control"></select>
                 <span asp-validation-for="DistrictId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Güncelle" class="btn btn-primary" />
             </div>
         </form>
     </div>

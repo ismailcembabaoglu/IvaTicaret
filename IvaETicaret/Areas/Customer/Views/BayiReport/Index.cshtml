@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model ReportFilterCustomerVM
+<div class="container">
+    <br />
+    <h1>Filitre Bazlı Satış Raporu</h1>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="Filter">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Name" class="control-label">Ad</label>
+                    <input asp-for="Name" class="form-control"  />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Surname" class="control-label">Soyad</label>
+                    <input asp-for="Surname" class="form-control" />
+                    <span asp-validation-for="Surname" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BaslangicDate" class="control-label">Başlangıç Tarihi</label>
+                    <input asp-for="BaslangicDate" class="form-control" type="date" />
+                    <span asp-validation-for="BaslangicDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="BitisDate" class="control-label">Bitiş Tarihi</label>
+                    <input asp-for="BitisDate" class="form-control" type="date" />
+                    <span asp-validation-for="BitisDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="OrderStatus" class="control-label">Kategori</label>
+                    <select asp-for="OrderStatus" class="form-control">
+                        <option value="Hazırlanıyor">Hazırlanıyor</option>
+                        <option value="Beklemede">Beklemede</option>
+                        <option value="Hazırlanıyor">Yola Çıktı</option>
+                        <option value="Sipariş Teslim Edildi">Sipariş Teslim Edildi</option>
+                        <option value="İptal Edildi">İptal Edildi</option>
+                    </select>
+                </div>
+              
+                <div class="form-group">
+                    <input type="submit" value="Filtrele" class="btn btn-success" />
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

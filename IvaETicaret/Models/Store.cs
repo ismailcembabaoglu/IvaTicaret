@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata.Ecma335;
 
 namespace IvaETicaret.Models
 {
@@ -11,6 +12,7 @@ namespace IvaETicaret.Models
         public string CompanyName { get; set; }
         public string TaxNumber { get; set; }
         public string TaxOffice { get; set; }
+        public string? Image { get; set; }
         public bool ContractConfirmation { get; set; }
         public bool IsActive { get; set; }
         public bool StoreIsActive { get; set; }

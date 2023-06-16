@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IvaETicaret.Properties {
+namespace IvaETicaret {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace IvaETicaret.Properties {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IvaETicaret.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("IvaETicaret.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,9 +63,9 @@ namespace IvaETicaret.Properties {
         /// <summary>
         ///   System.IO.MemoryStream öğesine benzeyen System.IO.UnmanagedMemoryStream türünde yerelleştirilmiş bir kaynak arar.
         /// </summary>
-        public static System.IO.UnmanagedMemoryStream positive_logo_opener_13622 {
+        public static System.IO.UnmanagedMemoryStream Slate {
             get {
-                return ResourceManager.GetStream("positive_logo_opener_13622", resourceCulture);
+                return ResourceManager.GetStream("Slate", resourceCulture);
             }
         }
     }

@@ -59,6 +59,13 @@ namespace IvaETicaret.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction("Index");
         }
+        public IActionResult IptalEt()
+        {
+            OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
+            orderHeader.OrderStatus = Diger.Durum_Iptal;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
         public async Task< IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -71,8 +78,6 @@ namespace IvaETicaret.Areas.Admin.Controllers
             else if (User.IsInRole(Diger.Role_User) || User.IsInRole(Diger.Role_Birey))
             {
                     orderHeaderList = await _db.OrderHeaders.Where(i => i.ApplicationUserId == claim.Value).Include(i => i.ApplicationUser).Include(c => c.OdemeTur).ToListAsync();
-               
-
             }
             else
             {
@@ -109,7 +114,7 @@ namespace IvaETicaret.Areas.Admin.Controllers
                 {
                 
              
-                    ss.Stream = IvaETicaret.Properties.Resources.positive_logo_opener_13622;
+                    ss.Stream = Resources.Slate;
 
                     ss.Play();
                 }
@@ -176,6 +181,27 @@ namespace IvaETicaret.Areas.Admin.Controllers
             {
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
                 orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_TeslimEdildi);
+            }
+            return View(orderHeaderList);
+        }
+        public IActionResult Iptal()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            IEnumerable<OrderHeader> orderHeaderList;
+            if (User.IsInRole(Diger.Role_Admin))
+            {
+                orderHeaderList = _db.OrderHeaders.Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Adress).Where(c => c.OrderStatus == Diger.Durum_Iptal).ToList();
+            }
+            else if (User.IsInRole(Diger.Role_User) || User.IsInRole(Diger.Role_Birey))
+            {
+                orderHeaderList = _db.OrderHeaders.Where(i => i.ApplicationUserId == claim.Value && i.OrderStatus == Diger.Durum_Iptal).Include(i => i.ApplicationUser).Include(c => c.OdemeTur);
+
+            }
+            else
+            {
+                var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
+                orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c => c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_Iptal);
             }
             return View(orderHeaderList);
         }

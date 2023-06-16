@@ -31,12 +31,12 @@
                                 <dd class="col-sm-9">
                                     @Html.DisplayFor(model => model.Product.Title)
                                 </dd>
-                                <dt class="col-sm-3">
+                            @*    <dt class="col-sm-3">
                                     Açıklama
                                 </dt>
                                 <dd class="col-sm-9">
                                     @Html.DisplayFor(model => model.Product.Description)
-                                </dd>
+                                </dd>*@
                                 <dt class="col-sm-3">
                                     Fiyat
                                 </dt>
@@ -63,9 +63,8 @@
                                 }
                                    
                             </dl>
-                            <h5 class="card-title">Özellikleri </h5>
-                            <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                            <h5 class="card-title">Açıklama </h5>
+                            <p class="card-text">@Model.Product.Description</p>
                         </div>
                     </div>
                 </div>

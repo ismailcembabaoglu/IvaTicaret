@@ -1,12 +1,13 @@
 ﻿@model IEnumerable<IvaETicaret.Models.OrderHeader>
 @{
-    ViewData["Title"] = "Beklenen";
+    ViewData["Title"] = "Iptal";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end" role="group" aria-label="Basic mixed styles example">
-    <a asp-action="Iptal" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger">İptal Siparişler</a>
-    <a asp-action="Beklenen" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger active">Beklenen Siparişler</a>
-    <a asp-action="Hazirlanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-warning">Hazırlanmakta Olan Siparişler</a>
+    <a asp-action="Iptal" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger active">İptal Siparişler</a>
+    <a asp-action="Beklenen" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-secondary">Beklenen Siparişler</a>
+    <a asp-action="Hazirlanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-warning ">Hazırlanmakta Olan Siparişler</a>
     <a asp-action="YolaCikan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-info">Yola Çıkan Siparişler</a>
     <a asp-action="TeslimEdildi" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-success">Teslim Edilen Siparişler</a>
     <a asp-action="Index" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-primary">Tüm Siparişler</a>
@@ -30,7 +31,7 @@
                     Telefon
                 </th>
                 <th>
-                   Sipariş Durumu
+                    Sipariş Durumu
                 </th>
                 <th>
                     Ödeme Durumu
@@ -86,10 +87,6 @@
             }
         </tbody>
     </table>
-    <audio autoplay="autoplay">
-        <source src="@Resources.Slate" type="audio/vnd.wave" />
-        Tarayıcınız audio etiketini desteklemiyor.
-    </audio>
 </div>
 @section Scripts{
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -119,9 +116,6 @@
                 },
             });
         });
-         setTimeout(function () {
-            console.log("Yenilendi")
-            window.location.reload(1);
-        }, 60000);
     </script>
 }
+

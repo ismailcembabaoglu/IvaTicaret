@@ -7,7 +7,7 @@
 <br />
 <h4>Mağaza Kayıt</h4>
 <hr />
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="row">
         <div class="col-md-6">
@@ -105,6 +105,17 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label asp-for="Image" class="control-label">Resim</label>
+                <input asp-for="Image" class="form-control" type="file" />
+                <span style="color:forestgreen">200x150 Ebatlarında Fotoğraf Seçmeniz tavsiye edilir</span>
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+   
     <br />
     <div class="row">
         <div class="col-md-6">
@@ -116,7 +127,9 @@
                     <a asp-action="Index" class="btn btn-primary">Geri Dön</a>
                 }
             </div>
+
         </div>
+        
 
     </div>
 </form>

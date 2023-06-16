@@ -11,6 +11,7 @@ using System.Security.Claims;
 using IvaETicaret.Email;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authorization;
+using Iyzipay.Model.V2.Subscription;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -18,10 +19,11 @@ namespace IvaETicaret.Areas.Customer.Controllers
     public class StoreController : Controller
     {
         private readonly ApplicationDbContext _context;
-
-        public StoreController(ApplicationDbContext context)
+        private readonly IWebHostEnvironment _he;
+        public StoreController(ApplicationDbContext context, IWebHostEnvironment he)
         {
             _context = context;
+            _he = he;
         }
 
         // GET: Customer/Store
@@ -63,11 +65,30 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,RootName,CompanyName,TaxNumber,TaxOffice,ContractConfirmation,IsActive,TaxPlate,PhoneNumber,Email,DepartmentId")] Store store)
+        public async Task<IActionResult> Create( Store store)
         {
             if (ModelState.IsValid)
             {
-
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(_he.WebRootPath, @"images\store");
+                    var ext = Path.GetExtension(files[0].FileName);
+                    if (store.Image != null)
+                    {
+                        var imagePath = Path.Combine(_he.WebRootPath, store.Image.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + ext), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStreams);
+                    }
+                    store.Image = @"\images\store\" + fileName + ext;
+                }
                 _context.Add(store);
                 SenderEmail.Gonder(
                     "İva Keyiniz",
@@ -134,6 +155,26 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
             if (ModelState.IsValid)
             {
+                var files = HttpContext.Request.Form.Files;
+                if (files.Count > 0)
+                {
+                    string fileName = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(_he.WebRootPath, @"images\store");
+                    var ext = Path.GetExtension(files[0].FileName);
+                    if (store.Image != null)
+                    {
+                        var imagePath = Path.Combine(_he.WebRootPath, store.Image.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagePath))
+                        {
+                            System.IO.File.Delete(imagePath);
+                        }
+                    }
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, fileName + ext), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStreams);
+                    }
+                    store.Image = @"\images\store\" + fileName + ext;
+                }
                 try
                 {
                     _context.Update(store);

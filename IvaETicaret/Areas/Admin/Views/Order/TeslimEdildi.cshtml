@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end" role="group" aria-label="Basic mixed styles example">
+    <a asp-action="Iptal" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger">İptal Siparişler</a>
     <a asp-action="Beklenen" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger">Beklenen Siparişler</a>
     <a asp-action="Hazirlanan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-warning">Hazırlanmakta Olan Siparişler</a>
     <a asp-action="YolaCikan" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-info">Yola Çıkan Siparişler</a>
@@ -29,7 +30,10 @@
                     Telefon
                 </th>
                 <th>
-                    Durumu
+                    Sipariş Durumu
+                </th>
+                <th>
+                    Ödeme Durumu
                 </th>
                 <th>
                     Ödeme Türü
@@ -67,6 +71,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.OrderStatus)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Odendimi)
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.OdemeTur.Name)

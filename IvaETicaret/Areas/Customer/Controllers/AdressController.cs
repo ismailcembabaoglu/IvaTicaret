@@ -140,7 +140,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 {
                     return NotFound();
                 }
-                ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id");
+                ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "name");
                 return View(adress);
             }
             else if (User.IsInRole(Diger.Role_Birey) || User.IsInRole(Diger.Role_User))
@@ -192,7 +192,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }
             if (User.IsInRole(Diger.Role_Admin))
             {
-                ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Id", adress.ApplicationUserId);
+                ViewData["ApplicationUserId"] = new SelectList(_context.ApplicationUsers, "Id", "Name", adress.ApplicationUserId);
             }
             else if (User.IsInRole(Diger.Role_Birey) || User.IsInRole(Diger.Role_User))
             {
