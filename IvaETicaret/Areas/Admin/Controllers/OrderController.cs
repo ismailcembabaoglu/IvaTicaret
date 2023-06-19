@@ -43,28 +43,28 @@ namespace IvaETicaret.Areas.Admin.Controllers
             OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
             orderHeader.OrderStatus = Diger.Durum_Hazirlaniyor;
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Hazirlanan");
         }
         public IActionResult YolaCikart()
         {
             OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
             orderHeader.OrderStatus = Diger.Durum_YolaCikti;
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("YolaCikan");
         }
         public IActionResult TeslimEt()
         {
             OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
             orderHeader.OrderStatus = Diger.Durum_TeslimEdildi;
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("TeslimEdildi");
         }
         public IActionResult IptalEt()
         {
             OrderHeader orderHeader = _db.OrderHeaders.FirstOrDefault(i => i.Id == OrderVM.OrderHeader.Id);
             orderHeader.OrderStatus = Diger.Durum_Iptal;
             _db.SaveChanges();
-            return RedirectToAction("Index");
+            return RedirectToAction("Iptal");
         }
         public async Task< IActionResult> Index()
         {

@@ -56,7 +56,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // GET: Customer/Store/Create
         public IActionResult Create()
         {
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
+            ViewData["DepartmentId"] = new SelectList(_context.Departments.Where(c=>c.Id!=1), "Id", "Name");
             return View();
         }
 
@@ -125,7 +125,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 {
                     return NotFound();
                 }
-                ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
+                ViewData["DepartmentId"] = new SelectList(_context.Departments.Where(c=>c.Id!=1), "Id", "Name", store.DepartmentId);
                 return View(store);
             }
             else if (User.IsInRole(Diger.Role_Admin))
@@ -193,7 +193,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 }
                 return RedirectToAction("Index","Home");
             }
-            ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", store.DepartmentId);
+            ViewData["DepartmentId"] = new SelectList(_context.Departments,"Id", "Name", store.DepartmentId);
             return View(store);
         }
         [HttpPost]

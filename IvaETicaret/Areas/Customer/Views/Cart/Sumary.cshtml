@@ -73,7 +73,7 @@
 
 
                         </div>
-                        <div class="mb-3 row">
+                       @* <div class="mb-3 row">
                             <div class="col-sm-8">
                                 <img src="~/images/image/iyzico_ile_ode_colored_horizontal.png" width="200px" height="40px" />
                             </div>
@@ -111,7 +111,7 @@
                                 <input class="form-control" asp-for="OrderHeader.Cvc" placeholder="Güvenlik Kodu" type="text" aria-label="readonly input example" >
                                 <span asp-validation-for="OrderHeader.Cvc" class="text-danger"></span>
                             </div>
-                        </div>
+                        </div>*@
         @*                <div id="iyzipay-checkout-form" class="responsive"></div>*@
                     </div>
 
@@ -126,6 +126,7 @@
         </div>
     </div>
 </form>
+
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }

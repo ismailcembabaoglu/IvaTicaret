@@ -48,7 +48,6 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             //Console.Beep(38, 2000);
-
             if (claim != null)
             {
                 var count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).ToList().Count();

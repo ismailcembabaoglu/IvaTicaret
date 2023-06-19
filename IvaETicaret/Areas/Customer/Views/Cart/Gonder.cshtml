@@ -1,7 +1,15 @@
-﻿@{
+﻿@using System.Web;
+@model Iyzipay.Model.CheckoutFormInitialize
+@{
     ViewData["Title"] = "Gonder";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@Html.Raw(ViewBag.trc)
-<div id="iyzipay-checkout-form" class="responsive"></div>
+@*<div class="container">
+    @Html.Raw(HttpUtility.HtmlDecode(Model.HtmlContent))
+</div>*@
+
+
+<div id="iyzipay-checkout-form" class="responsive">
+    @Html.Raw(Model.CheckoutFormContent)
+</div>
 

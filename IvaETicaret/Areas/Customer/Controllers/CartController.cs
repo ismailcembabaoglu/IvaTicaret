@@ -4,12 +4,14 @@ using IvaETicaret.Models;
 using Iyzipay;
 using Iyzipay.Model;
 using Iyzipay.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Options;
 using Microsoft.Kiota.Abstractions;
 using System.Security.Claims;
@@ -77,66 +79,103 @@ namespace IvaETicaret.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Sumary(ShoppingCartVM model)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-            var adress = _db.Adress.Where(c => c.Id == model.OrderHeader.AdressId).FirstOrDefault();
-            model.OrderHeader.ApplicationUser = us;
-            model.OrderHeader.Adress = adress;
-            ShoppingCartVM.ListCart = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product);
-            ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Beklemede;
-            ShoppingCartVM.OrderHeader.Odendimi = Diger.Durum_Odenmedi;
-            ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
-            ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
-
-            _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
-            _db.SaveChanges();
-            foreach (var item in ShoppingCartVM.ListCart)
+            if (model.OrderHeader.OdemeTurId==1)
             {
-                item.Price = item.Product.Price;
-                OrderDetail orderDetail = new OrderDetail
-                {
-                    ProductId = item.ProductId,
-                    OrderId = ShoppingCartVM.OrderHeader.Id,
-                    Price = item.Price,
-                    Count = item.Count,
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                var adress = _db.Adress.Where(c => c.Id == model.OrderHeader.AdressId).FirstOrDefault();
+                model.OrderHeader.ApplicationUser = us;
+                model.OrderHeader.Adress = adress;
+                ShoppingCartVM.ListCart = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product);
+                ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Iptal;
+                ShoppingCartVM.OrderHeader.Odendimi = Diger.Durum_Odenmedi;
+                ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+                ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
 
-                };
-                ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
-                model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
-                _db.OrderDetails.Add(orderDetail);
-
-            }
-            var payment = PaymentProcess(model);
-            if (payment.Status == "success")
-            {
+                _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
                 _db.SaveChanges();
+                foreach (var item in ShoppingCartVM.ListCart)
+                {
+                    item.Price = item.Product.Price;
+                    OrderDetail orderDetail = new OrderDetail
+                    {
+                        ProductId = item.ProductId,
+                        OrderId = ShoppingCartVM.OrderHeader.Id,
+                        Price = item.Price,
+                        Count = item.Count,
+
+                    };
+                    ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                    model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                    _db.OrderDetails.Add(orderDetail);
+
+                }
+                _db.SaveChanges();
+                var ird = deneme(ShoppingCartVM.OrderHeader.Id);
                 HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
-                return RedirectToAction("Gonder", payment);
+                return RedirectToAction("Gonder", new { id = ird });
+            }
+            else
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+                var adress = _db.Adress.Where(c => c.Id == model.OrderHeader.AdressId).FirstOrDefault();
+                model.OrderHeader.ApplicationUser = us;
+                model.OrderHeader.Adress = adress;
+                ShoppingCartVM.ListCart = _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product);
+                ShoppingCartVM.OrderHeader.OrderStatus = Diger.Durum_Iptal;
+                ShoppingCartVM.OrderHeader.Odendimi = Diger.Durum_Odenmedi;
+                ShoppingCartVM.OrderHeader.ApplicationUserId = claim.Value;
+                ShoppingCartVM.OrderHeader.OrderDate = DateTime.Now;
+
+                _db.OrderHeaders.Add(ShoppingCartVM.OrderHeader);
+                _db.SaveChanges();
+                foreach (var item in ShoppingCartVM.ListCart)
+                {
+                    item.Price = item.Product.Price;
+                    OrderDetail orderDetail = new OrderDetail
+                    {
+                        ProductId = item.ProductId,
+                        OrderId = ShoppingCartVM.OrderHeader.Id,
+                        Price = item.Price,
+                        Count = item.Count,
+
+                    };
+                    ShoppingCartVM.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                    model.OrderHeader.OrderTotal += item.Count * item.Product.Price;
+                    _db.OrderDetails.Add(orderDetail);
+
+                }
+                _db.SaveChanges();
+                var ird = deneme(ShoppingCartVM.OrderHeader.Id);
+                HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
+                return RedirectToAction("SiparisTamam");
             }
            
 
-
-            return RedirectToAction("Hata");
-
+        }
+        private int deneme(int id)
+        {
+           var idd= _db.OrderHeaders.Where(c => c.Id == id).FirstOrDefault().Id;
+            return idd;
         }
         //sanal pos
-        private ThreedsInitialize PaymentProcess(ShoppingCartVM model)
+        private CheckoutFormInitialize PaymentProcess(OrderDetailsVM model)
         {
 
             Iyzipay.Options options = new Iyzipay.Options();
             options.ApiKey = "I8wDLNS5lMPJYO8uuLAjiIOTIKmWZ4wz";
             options.SecretKey = "0m0r7fNpzCoTMT7vhmdApdDJufKN80b0";
             options.BaseUrl = "https://api.iyzipay.com";
-            CreatePaymentRequest request = new CreatePaymentRequest();
+            CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest();
             request.Locale = Locale.TR.ToString();
             request.ConversationId = new Random().Next(1111, 9999).ToString();
             request.Price = model.OrderHeader.OrderTotal.ToString();
             request.PaidPrice = model.OrderHeader.OrderTotal.ToString();
             request.Currency = Currency.TRY.ToString();
-            request.Installment = 1;
             request.BasketId = "B67832";
-            request.PaymentChannel = PaymentChannel.WEB.ToString();
             request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
             request.CallbackUrl = HtmlEncoder.Default.Encode(Url.Action("Save", "Cart", values: new { area = "Customer" },
                 protocol: Request.Scheme));
@@ -150,14 +189,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
             //paymentCard.RegisterCard = 0;
             //request.PaymentCard = paymentCard;
 
-            PaymentCard paymentCard = new PaymentCard();
-            paymentCard.CardHolderName = model.OrderHeader.CartName;
-            paymentCard.CardNumber = model.OrderHeader.CartNumber;
-            paymentCard.ExpireMonth = model.OrderHeader.ExpirationMonth;
-            paymentCard.ExpireYear = model.OrderHeader.ExpirationYear;
-            paymentCard.Cvc = model.OrderHeader.Cvc;
-            paymentCard.RegisterCard = 0;
-            request.PaymentCard = paymentCard;
+            //PaymentCard paymentCard = new PaymentCard();
+            //paymentCard.CardHolderName = model.OrderHeader.CartName;
+            //paymentCard.CardNumber = model.OrderHeader.CartNumber;
+            //paymentCard.ExpireMonth = model.OrderHeader.ExpirationMonth;
+            //paymentCard.ExpireYear = model.OrderHeader.ExpirationYear;
+            //paymentCard.Cvc = model.OrderHeader.Cvc;
+            //paymentCard.RegisterCard = 0;
 
             Buyer buyer = new Buyer();
             buyer.Id = model.OrderHeader.Id.ToString();
@@ -194,7 +232,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             List<BasketItem> basketItems = new List<BasketItem>();
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-            foreach (var item in _db.ShoppingKarts.Where(c => c.ApplicationUserId == claim.Value).Include(c => c.Product))
+            foreach (var item in model.OrderDetails)
             {
                 basketItems.Add(new BasketItem()
                 {
@@ -210,12 +248,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
             }
 
             request.BasketItems = basketItems;
-            ThreedsInitialize threedsInitialize = ThreedsInitialize.Create(request, options);
+            CheckoutFormInitialize checkoutFormInitialize = CheckoutFormInitialize.Create(request, options);
 
 
 
-            return threedsInitialize;
+            return checkoutFormInitialize;
         }
+       
 
 
         public IActionResult SiparisTamam()
@@ -224,11 +263,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-            var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Iptal).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            orderHeader.OrderStatus = Diger.Durum_Beklemede;
             orderHeader.Odendimi = Diger.Durum_Odendi;
             _db.OrderHeaders.UpdateRange(orderHeader);
             var orderDetails = _db.OrderDetails.Where(c => c.OrderId == orderHeader.Id);
             _db.ShoppingKarts.RemoveRange(_db.ShoppingKarts.Where(c=>c.ApplicationUserId==claim.Value));
+            _db.SaveChanges();
             return View();
         }
         public IActionResult KartHata(string message)
@@ -345,36 +386,45 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Gonder(ThreedsInitialize threedsInitialize)
+        public IActionResult Gonder(int id)
         {
-            if (threedsInitialize.Status== "failure")
-            {
-                var claimsIdentity = (ClaimsIdentity)User.Identity;
-                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
-                var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
-                var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
-                _db.OrderHeaders.RemoveRange(orderHeader);
-                _db.SaveChanges();
-            }
-            ViewBag.trc = threedsInitialize.HtmlContent;
-            return View();
+            OrderDetailsVM orderDetails = new OrderDetailsVM();
+            orderDetails.OrderHeader = _db.OrderHeaders.Where(c => c.Id == id).Include(c => c.Adress).Include(c => c.ApplicationUser).Include(c => c.OdemeTur).FirstOrDefault();
+            orderDetails.OrderDetails = _db.OrderDetails.Where(c => c.OrderId == id).Include(c=>c.Product).ThenInclude(c=>c.Category).Include(c=>c.OrderHeader);
+          
+           
+         
+           
+            var payment = PaymentProcess(orderDetails);
+            //if (threedsInitialize.Status== "failure")
+            //{
+            //    var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //    var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            //    var us = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault();
+            //    var orderHeader = _db.OrderHeaders.Where(c => c.ApplicationUserId == claim.Value && c.OrderStatus == Diger.Durum_Beklemede).OrderByDescending(c => c.OrderDate).FirstOrDefault();
+            //    _db.OrderHeaders.RemoveRange(orderHeader);
+            //    _db.SaveChanges();
+            //}
+            //ViewBag.trc = threedsInitialize.HtmlContent;
+            HttpContext.Session.SetInt32(Diger.ssShopingCart, 0);
+            return View(payment);
         }
-        public IActionResult Save(CreateThreedsPaymentRequest request)
+        public IActionResult Save(RetrieveCheckoutFormRequest request)
         {
             Iyzipay.Options options = new Iyzipay.Options();
             options.ApiKey = "I8wDLNS5lMPJYO8uuLAjiIOTIKmWZ4wz";
             options.SecretKey = "0m0r7fNpzCoTMT7vhmdApdDJufKN80b0";
             options.BaseUrl = "https://api.iyzipay.com";
 
-            CreateThreedsPaymentRequest _request = new CreateThreedsPaymentRequest();
+            RetrieveCheckoutFormRequest _request = new RetrieveCheckoutFormRequest();
             _request = request;
-            ThreedsPayment threedsPayment = ThreedsPayment.Create(_request, options);
-            if (threedsPayment.Status == "success")
+            CheckoutForm checkoutForm = CheckoutForm.Retrieve(request, options);
+            if (checkoutForm.Status == "success")
             {
                 return RedirectToAction("SiparisTamam");
             }
 
-            return RedirectToAction("KartHata");
+            return RedirectToAction("KartHata", new {message=checkoutForm.ErrorMessage});
         }
 
     }
