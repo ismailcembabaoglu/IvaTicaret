@@ -27,9 +27,11 @@ namespace IvaETicaret
             builder.Services.AddRazorPages();
             builder.Services.AddSession(options =>
             {
+                
                 options.IdleTimeout = TimeSpan.FromMinutes(20);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.SameSite = SameSiteMode.Strict;
             });
             builder.Services.AddSignalR(c=>c.EnableDetailedErrors=true);
 

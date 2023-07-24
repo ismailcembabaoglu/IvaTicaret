@@ -110,14 +110,6 @@ namespace IvaETicaret.Areas.Admin.Controllers
 
                 var bayi = _db.ApplicationUsers.Where(i => i.Id == claim.Value).FirstOrDefault().StoreId;
                 orderHeaderList = _db.OrderHeaders.Include(i => i.Adress).Include(c => c.OdemeTur).Include(c => c.ApplicationUser).Include(c=>c.Store).Where(i => i.StoreId == bayi && i.OrderStatus == Diger.Durum_Beklemede);
-                if (orderHeaderList.Count()>0)
-                {
-                
-             
-                    ss.Stream = Resources.Slate;
-
-                    ss.Play();
-                }
             }
             return View(orderHeaderList);
         }

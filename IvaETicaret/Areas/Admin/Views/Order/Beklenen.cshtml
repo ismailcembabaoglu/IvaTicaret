@@ -3,6 +3,21 @@
     ViewData["Title"] = "Beklenen";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@if (Model.Count()>0)
+{
+   @if (User.IsInRole(Diger.Role_Bayi))
+    {
+        <audio id="myAudio" autoplay>
+            <source src="~/images/Slate.mp3" type="audio/mp3" />
+            Your browser does not support the audio element.
+        </audio>
+    }
+
+}
+@*<audio id="myAudio">
+    <source src="~/images/Slate.mp3" type="audio/mp3" />
+    Your browser does not support the audio element.
+</audio>*@
 <div class="btn-group d-grid gap-2 d-md-flex justify-content-md-end" role="group" aria-label="Basic mixed styles example">
     <a asp-action="Iptal" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger">İptal Siparişler</a>
     <a asp-action="Beklenen" asp-area="Admin" asp-controller="Order" type="button" class="btn btn-outline-danger active">Beklenen Siparişler</a>
@@ -30,7 +45,7 @@
                     Telefon
                 </th>
                 <th>
-                   Sipariş Durumu
+                    Sipariş Durumu
                 </th>
                 <th>
                     Ödeme Durumu
@@ -119,9 +134,16 @@
                 },
             });
         });
-         setTimeout(function () {
-            console.log("Yenilendi")
+
+    </script>
+    <script type="text/javascript">
+       
+        setTimeout(function() {
             window.location.reload(1);
         }, 60000);
+        //setTimeout( $(document).ready(function play() {
+        //    document.getElementById('myAudio').play();
+        //}
+        //), 60000);
     </script>
 }

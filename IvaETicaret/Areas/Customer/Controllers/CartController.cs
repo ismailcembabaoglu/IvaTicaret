@@ -419,9 +419,18 @@ namespace IvaETicaret.Areas.Customer.Controllers
             RetrieveCheckoutFormRequest _request = new RetrieveCheckoutFormRequest();
             _request = request;
             CheckoutForm checkoutForm = CheckoutForm.Retrieve(request, options);
+           
             if (checkoutForm.Status == "success")
             {
-                return RedirectToAction("SiparisTamam");
+                    CreateApprovalRequest approvelRequest = new CreateApprovalRequest();
+                    approvelRequest.Locale = Locale.TR.ToString();
+                    approvelRequest.ConversationId = checkoutForm.ConversationId;
+                    foreach (var payi in checkoutForm.PaymentItems)
+                    {
+                        approvelRequest.PaymentTransactionId = payi.PaymentTransactionId;
+                        Approval approval = Approval.Create(approvelRequest, options);
+                    }
+                    return RedirectToAction("SiparisTamam");
             }
 
             return RedirectToAction("KartHata", new {message=checkoutForm.ErrorMessage});
