@@ -45,7 +45,7 @@
             $('#DrpSehir').change(function () {
                 var id = $('#DrpSehir').val();
                 $.ajax({
-                    url: '/Customer/StoreAdress/ilcegetir',
+                    url: '/Customer/Home/ilcegetir',
                     data: { p: id },
                     type: "POST",
                     dataType: "Json",
@@ -65,7 +65,7 @@
             $('#Drpilce').change(function () {
                 var id = $('#Drpilce').val();
                 $.ajax({
-                    url: '/Customer/StoreAdress/mahallegetir',
+                    url: '/Customer/Home/mahallegetir',
                     data: { p: id },
                     type: "POST",
                     dataType: "Json",

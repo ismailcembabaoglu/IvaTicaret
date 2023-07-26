@@ -11,7 +11,7 @@
     <hr />
     <div class="row">
         <div class="col-md-4">
-            <form asp-action="Create">
+            <form asp-action="Create" onsubmit="theButton.disabled = true; return true;">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="StoreId" class="control-label"></label>
@@ -25,7 +25,9 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CountyId" class="control-label"></label>
-                    <select asp-for="CountyId" id="Drpilce" class="form-control"></select>
+                    <select asp-for="CountyId" id="Drpilce" class="form-control">
+                    </select>
+                   
                     <span asp-validation-for="CountyId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -34,7 +36,7 @@
                     <span asp-validation-for="DistrictId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <input type="submit" value="Kaydet" class="btn btn-success" />
+                    <input type="submit" value="Kaydet" name="theButton" class="btn btn-success" />
                 </div>
             </form>
         </div>
@@ -67,7 +69,7 @@
                         console.log(data);
                         $('#Drpilce').empty();
                         for (var i = 0; i < data.length; i++) {
-                            $('#Drpilce').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                            $('#Drpilce').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>" );
                         }
                     }
                 });
@@ -87,7 +89,7 @@
                         console.log(data);
                         $('#Drpmahalle').empty();
                         for (var i = 0; i < data.length; i++) {
-                            $('#Drpmahalle').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
+                            $('#Drpmahalle').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>" );
                         }
                     }
                 });

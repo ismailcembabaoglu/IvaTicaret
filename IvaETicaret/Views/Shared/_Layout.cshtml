@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head >
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="@Url.Content("~/images/image/logoc.ico")">
@@ -20,11 +20,11 @@
 
 </head>
 
-<body>
+<body style="background-color:yellow">
 
-    <header>
+    <header >
 
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom border-bottom-dark box-shadow mb-3" data-bs-theme="dark">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="color:#7b7b7b"><img src="~/images/image/Analogo.jpg" width="250" height="60" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -44,29 +44,29 @@
 
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a>
                         </li>
-                    
-                        @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
-                        {
-                            <li style="color:black">
-                                <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-Black">
-                                    @{
-                                        var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
-                                    }
-                                    <i class="bi bi-basket2-fill"></i>(@count)
-                                </a>
-                            </li>
-                        }
-                        else
-                        {
-                            <li style="color:white">
-                                <a href="/Identity/Account/Login" class="nav-link text-Black">
-
-                                    <i class="bi bi-basket2-fill"></i>(0)
-                                </a>
-                            </li>
-                        }
 
                     </ul>
+
+                    @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
+                    {
+                        <li>
+                            <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-Black" >
+                                @{
+                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
+                                }
+                                <i class="bi bi-basket2-fill"></i>(@count)
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="/Identity/Account/Login" class="nav-link text-Black">
+
+                                <i class="bi bi-basket2-fill"></i>(0)
+                            </a>
+                        </li>
+                    }
                     <div class="row">
                         <div class="col-md-12">
                             <form class="form-inline" action="/Customer/Home/Search" method="post" style="margin-right:0.5rem">
@@ -186,7 +186,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" style="background-color:yellow">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -197,7 +197,7 @@
     <br />
 
     <footer class="border-top footer text-muted">
-        <div class="container">
+        <div class="container" style="background-color:yellow">
             <div class="row">
                <div class="col">
                    

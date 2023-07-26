@@ -9,6 +9,7 @@ using IvaETicaret.Data;
 using IvaETicaret.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using iTextSharp.text;
 
 namespace IvaETicaret.Areas.Customer.Controllers
 {
@@ -92,21 +93,43 @@ namespace IvaETicaret.Areas.Customer.Controllers
    
         public JsonResult ilcegetir(int p)
         {
-            var ilceler=_context.Counties.Where(c => c.CityId == p).Select(c=>new
+            if (p == 79)
             {
-               Text=c.Name,
-               Value=c.Id
-            }).ToList();
-            return Json(ilceler);
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "Tümü", Value = "0" });
+                items.Add(new SelectListItem { Text = "Tümü", Value = "0" });
+
+                return Json(items);
+            }
+            else
+            {
+                var ilceler = _context.Counties.Where(c => c.CityId == p).Select(c => new
+                {
+                    Text = c.Name,
+                    Value = c.Id
+                }).ToList();
+                return Json(ilceler);
+            }
+      
         }
         public JsonResult mahallegetir(int p)
         {
-            var mahalleler = _context.Districts.Where(c => c.CountyId == p).Select(c => new
+            if (p==0 || p==-1)
             {
-                Text = c.Name,
-                Value = c.Id
-            }).ToList();
-            return Json(mahalleler);
+                List<SelectListItem> items = new List<SelectListItem>();
+                items.Add(new SelectListItem { Text = "Tümü", Value = "0" });
+                return Json(items);
+            }
+            else
+            {
+                var mahalleler = _context.Districts.Where(c => c.CountyId == p).Select(c => new
+                {
+                    Text = c.Name,
+                    Value = c.Id
+                }).ToList();
+                return Json(mahalleler);
+            }
+
         }
 
         // POST: Customer/StoreAdress/Create
@@ -118,9 +141,29 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(storeAdress);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (storeAdress.CityId==79)
+                {
+                    var lst = _context.Districts.Include(c => c.County).ThenInclude(c => c.City).Where(c => c.County.CityId == 79).ToList();
+                    foreach (var item in lst)
+                    {
+                        StoreAdress adressStore=new StoreAdress();
+                        adressStore.CityId = item.County.CityId;
+                        adressStore.CountyId = item.CountyId;
+                        adressStore.DistrictId = item.Id;
+                        adressStore.StoreId=storeAdress.StoreId;
+                        _context.Add(adressStore);
+                        await _context.SaveChangesAsync();
+                       
+                    }
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _context.Add(storeAdress);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+         
             }
             return View(storeAdress);
         }
