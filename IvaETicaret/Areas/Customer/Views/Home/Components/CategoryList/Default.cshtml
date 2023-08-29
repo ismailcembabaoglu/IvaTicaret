@@ -1,5 +1,5 @@
 ﻿@model IEnumerable<IvaETicaret.Models.Category>
-<div class="col-md-3">
+
     <div class="card">
         <div class="list-group">
             <a asp-action="CategoryDetails" asp-controller="Home" class="list-group-item list-group-item-action @(ViewBag.KategoriId==null?"active":"")" asp-route-id="" asp-route-StoreId="@ViewBag.storeId">Tüm ürünler</a>
@@ -11,4 +11,3 @@
             }
         </div>
     </div>
-</div>

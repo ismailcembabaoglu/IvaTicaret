@@ -114,7 +114,12 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                     var user = _db.ApplicationUsers.FirstOrDefault(x => x.Email == Input.Email);
                     int count = _db.ShoppingKarts.Where(c => c.ApplicationUserId == user.Id).Count();
                     HttpContext.Session.SetInt32(Diger.ssShopingCart, count);
-                    _logger.LogInformation("User logged in.");
+                    if (user.StoreId!=null)
+                    {
+                        _logger.LogInformation("Kullanıcı oturum açtı.");
+                        return LocalRedirect("/Admin/Order/Beklenen");
+                    }
+                    _logger.LogInformation("Kullanıcı oturum açtı.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -123,12 +128,12 @@ namespace IvaETicaret.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out.");
+                    _logger.LogWarning("Kullanıcı hesabı kilitlendi.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Geçersiz giriş denemesi.");
                     return Page();
                 }
             }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using IvaETicaret.Hubs;
+using IvaETicaret.Models;
 
 namespace IvaETicaret
 {
@@ -19,9 +20,8 @@ namespace IvaETicaret
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-
             builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddErrorDescriber<CustomIdentityErrorDescriber>();
             builder.Services.AddSingleton<IEmailSender, EmailSender>();
             builder.Services.AddControllersWithViews();
             builder.Services.AddRazorPages();

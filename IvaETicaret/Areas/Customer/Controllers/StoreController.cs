@@ -246,7 +246,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         // POST: Customer/Store/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             if (_context.Stores == null)
             {

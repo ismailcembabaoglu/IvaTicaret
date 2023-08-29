@@ -1,4 +1,5 @@
 ﻿using IvaETicaret.Data;
+using IvaETicaret.Email;
 using IvaETicaret.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -26,7 +27,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
         {
             if (!String.IsNullOrEmpty(q))
             {
-                var ara = _db.Products.Where(c => c.Title.Contains(q) || c.Description.Contains(q)).Include(c=>c.Category).ThenInclude(c=>c.Store);
+                var ara = _db.Products.Where(c => c.Title.Contains(q) || c.Description.Contains(q)).Include(c => c.Category).ThenInclude(c => c.Store);
                 //if (ara.ToList().Count() > 0)
                 //{
                 //    var bag = _db.Categories.FirstOrDefault(c => c.Id == ara.FirstOrDefault().CategoryId);
@@ -54,6 +55,10 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 HttpContext.Session.SetInt32(Diger.ssShopingCart, count);
 
             }
+            if (User.IsInRole(Diger.Role_Bayi))
+            {
+                return LocalRedirect("/Admin/Order/Beklenen");
+            }
             return View(department);
         }
         public IActionResult Location(int id)
@@ -71,7 +76,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
             //Include(c => c.storeAdresses.
             //Where(c => c.CityId == storeadress.CityId && c.CountyId == storeadress.CountyId && c.DistrictId == storeadress.DistrictId))
             //.Where(c => c.DepartmentId == storeadress.DepartmentId).ToList();
-          
+
             if (storeadress.CountyId > 0 && storeadress.DistrictId > 0)
             {
                 return RedirectToAction("StoreList", storeadress);
@@ -241,7 +246,21 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
         public IActionResult iletisim()
         {
-            return View();
+            EmailForm emailForm = new EmailForm();
+
+            return View(emailForm);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Iletisim([Bind("FirmaAdi,Aciklama")] EmailForm emailForm)
+        {
+            SenderEmail.Gonder("İstek Bildirimi"
+                , $"<div class='row'>Firma Adı : '{emailForm.FirmaAdi}'</div> <div class'row'>İstek : '{emailForm.Aciklama}'</div>"
+                , "yalcinvakif.7903@gmail.com");
+
+            return RedirectToAction(nameof(Index));
+
+
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

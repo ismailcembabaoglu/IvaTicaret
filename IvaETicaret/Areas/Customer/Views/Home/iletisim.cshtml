@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IvaETicaret.Models.EmailForm
+@{
     ViewData["Title"] = "İletişim Bilgilerimiz";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -17,4 +18,27 @@
 <p>
     Tel : 0 545 680 90 16
 </p>
+
+    <form asp-action="Iletisim">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <h1>İletişim Formu</h1>
+        <div class="form-group">
+            <label asp-for="FirmaAdi" class="control-label">Firma Adı</label>
+            <input asp-for="FirmaAdi" style="max-width:500px" class="form-control" />
+            <span asp-validation-for="FirmaAdi" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Aciklama" class="control-label">İstek Bildirimi</label>
+        <textarea asp-for="Aciklama" style="max-width:500px; max-height:150px; height:150px" class="form-control"></textarea>
+            <span asp-validation-for="Aciklama" class="text-danger"></span>
+        </div>
+        <br />
+
+        <div class="form-group">
+
+            <input type="submit" value="Gönder" class="btn btn-success" />
+
+        </div>
+    </form>
+
 
