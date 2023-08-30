@@ -44,36 +44,22 @@
 
                             <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="Hakkimizda">Hakkımızda</a>
                         </li>
+                        <li class="nav-item">
 
-                    </ul>
-
-                    @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
-                    {
-                        <li>
-                            <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-Black" >
-                                @{
-                                    var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
-                                }
-                                <i class="bi bi-basket2-fill"></i>(@count)
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="/Identity/Account/Login" class="nav-link text-Black">
-
-                                <i class="bi bi-basket2-fill"></i>(0)
-                            </a>
-                        </li>
-                    }
-                    <div class="row">
-                        <div class="col-md-12">
                             <form class="form-inline" action="/Customer/Home/Search" method="post" style="margin-right:0.5rem">
                                 <input name="q" type="text" class="form-control mr-2" placeholder="Arama" />
                             </form>
+                        </li>
+
+
+                    </ul>
+
+                 
+                  @*  <div class="row">
+                        <div class="col-md-12">
+                            
                         </div>
-                    </div>
+                    </div>*@
                     @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_Bayi) || User.IsInRole(Diger.Role_Birey) || User.IsInRole(Diger.Role_User))
                     {
                         <div class="dropdown">

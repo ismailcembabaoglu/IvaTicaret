@@ -3,13 +3,54 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 @inject ApplicationDbContext _db
+@inject IHttpContextAccessor HttpContextAccessor
 <ul class="navbar-nav">
     @if (SignInManager.IsSignedIn(User))
     {
-        
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hoşgeldin @_db.ApplicationUsers.Where(c=>c.Email==User.Identity.Name).FirstOrDefault().Name @*@User.Identity?.Name!*@</a>
-        </li>
+        @if (User.IsInRole(Diger.Role_Bayi))
+        {
+            @if (User.Identity.IsAuthenticated && HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart) != null)
+            {
+                <li class="nav-item">
+                    <a asp-area="Customer" asp-controller="Cart" asp-action="Index" class="nav-link text-white" style="font-size:x-large;margin-right:0.5rem">
+                        @{
+                            var count = HttpContextAccessor.HttpContext.Session.GetInt32(Diger.ssShopingCart);
+                        }
+                        <i class="bi bi-basket2-fill"></i>(@count)
+                    </a>
+                </li>
+            }
+            else
+            {
+                <li class="nav-item">
+                    <a href="/Identity/Account/Login" style="font-size:x-large;margin-right:0.5rem" class="nav-link text-white">
+
+                        <i class="bi bi-basket2-fill"></i>(0)
+                    </a>
+                </li>
+            }
+            <li class="nav-item">
+                <a class="nav-link text-white" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@_db.ApplicationUsers.Where(c=>c.Email==User.Identity.Name).FirstOrDefault().Name </a>
+
+            </li>
+            <li class="nav-item">
+
+                <form class="form-inline" asp-area="Customer" asp-controller="Home" asp-action="degistir">
+                    @if (_db.ApplicationUsers.Where(c => c.Email == User.Identity.Name).Join(_db.Stores, applicationuser => applicationuser.StoreId, store => store.Id, (applicationuser, store) => new { store.IsActive }).FirstOrDefault().IsActive)
+                    {
+                        <button type="submit" class="btn btn-success" style="margin-right:0.5rem"><i class="bi bi-check-circle-fill"></i>Firma Açık</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-danger" style="margin-right:0.5rem"><i class="bi bi-x-circle-fill"></i>Firma Kapalı</button>
+                    }
+                </form>
+
+
+
+            </li>
+        }
+       
         <li class="nav-item">
             <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <button type="submit" class="btn btn-danger" style="margin-right:0.5rem"><i class="bi bi-x-circle-fill"></i>Çıkış Yap</button>
@@ -19,7 +60,13 @@
     else
     {
         <li class="nav-item">
-            <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="false" asp-route-title="Üye Kayıt"  style="margin-right:0.5rem"><i class="bi bi-person-square"></i>Üye Ol</a>
+            <a href="/Identity/Account/Login" style="font-size:x-large;margin-right:0.5rem;" class="nav-link text-white">
+
+                <i class="bi bi-basket2-fill"></i>(0)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="btn btn-secondary" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="false" asp-route-title="Üye Kayıt" style="margin-right:0.5rem"><i class="bi bi-person-square"></i>Üye Ol</a>
         </li>
         <li class="nav-item">
             <a class="btn btn-success" asp-area="Identity" asp-page="/Account/Login" style="margin-right:0.5rem"><i class="bi bi-box-arrow-in-right"></i>Giriş Yap</a>
@@ -29,7 +76,7 @@
             <a class="btn btn-warning" asp-area="Identity" asp-page="/Account/Register" asp-route-secim="true" asp-route-title="Mağaza Kullanıcı Kayıt" style="margin-right:0.5rem"><i class="bi bi-person-vcard-fill"></i>Esnaf Üye</a>
         </li>
         <li class="nav-item">
-            <a class="btn btn-info" asp-area="Customer" asp-controller="Store" asp-action="Create" ><i class="bi bi-shop"></i>Esnaf Başvuru Formu</a>
+            <a class="btn btn-info" asp-area="Customer" asp-controller="Store" asp-action="Create"><i class="bi bi-shop"></i>Esnaf Başvuru Formu</a>
         </li>
 
     }

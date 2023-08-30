@@ -262,7 +262,26 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
 
         }
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Degistir()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+            var user = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault().StoreId;
+            var store = _db.Stores.Where(c => c.Id == user).FirstOrDefault();
+            if (store.IsActive)
+            {
+                store.IsActive = false;
+            }
+            else
+            {
+                store.IsActive = true;
+            }
+            _db.Update(store);
+            await _db.SaveChangesAsync();
+          return RedirectToAction("Index");
+        }
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

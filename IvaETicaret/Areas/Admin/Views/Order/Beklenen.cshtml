@@ -3,17 +3,17 @@
     ViewData["Title"] = "Beklenen";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-@if (Model.Count()>0)
+@if (Model.Count() > 0)
 {
-   @if (User.IsInRole(Diger.Role_Bayi))
+    @if (User.IsInRole(Diger.Role_Bayi))
     {
-       
-            <audio id="myAudio" autoplay loop>
-                <source src="~/images/zilsesi.mp3" type="audio/mp3" />
-                Your browser does not support the audio element.
-            </audio>
-        
-        
+
+        <audio id="myAudio" autoplay loop>
+            <source src="~/images/zilsesi.mp3" type="audio/mp3" />
+            Your browser does not support the audio element.
+        </audio>
+
+
     }
 
 }
@@ -33,81 +33,91 @@
 
 
 <div class="container">
-    <br />
-    <table class="table table-dark table-bordered table-striped" id="myTable">
-        <thead>
-            <tr>
-                <th></th>
-                <th>
-                    Adı
-                </th>
-                <th>
-                    Soyadı
-                </th>
-                <th>
-                    Telefon
-                </th>
-                <th>
-                    Sipariş Durumu
-                </th>
-                <th>
-                    Ödeme Durumu
-                </th>
-                <th>
-                    Ödeme Türü
-                </th>
-                <th>
-                    Toplam Tutar
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <div class="row">
+            <div class="col-9">
+        <br />
+        <table class="table table-dark table-bordered table-striped" id="myTable">
+            <thead>
                 <tr>
-                    <td>
-                        <br />
-                        @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_Bayi))
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
-                        }
-                        else
-                        {
-                            <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Detay</a>
-                        }
-
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SurName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderStatus)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Odendimi)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OdemeTur.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderTotal)
-                    </td>
+                    <th></th>
+                    <th>
+                        Adı
+                    </th>
+                    <th>
+                        Soyadı
+                    </th>
+                    <th>
+                        Telefon
+                    </th>
+                    <th>
+                        Sipariş Durumu
+                    </th>
+                    <th>
+                        Ödeme Durumu
+                    </th>
+                    <th>
+                        Ödeme Türü
+                    </th>
+                    <th>
+                        Toplam Tutar
+                    </th>
 
                 </tr>
-            }
-        </tbody>
-    </table>
-    <audio autoplay="autoplay">
-        <source src="@Resources.Slate" type="audio/vnd.wave" />
-        Tarayıcınız audio etiketini desteklemiyor.
-    </audio>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <br />
+                            @if (User.IsInRole(Diger.Role_Admin) || User.IsInRole(Diger.Role_Bayi))
+                            {
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Düzenle</a>
+                            }
+                            else
+                            {
+                                <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-success" style="margin-right:0.5rem"><i style="margin-right:0.5rem " class="bi bi-pencil-square"></i>Detay</a>
+                            }
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SurName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Odendimi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OdemeTur.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderTotal)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-3">
+        <div class="col-md-3">
+            <a class="rounded-circle btn btn-dark" asp-area="Customer" asp-controller="Home" asp-action="Iletisim">
+                <img src="~/images/image/logoiva.jpg" style="max-width:150px;max-height:150px" class="rounded-circle" />
+                <p>
+                    <span class="rounded-circle"> İva Çağır</span>
+                </p>
+            </a>
+        </div>
+    </div>
+    </div>
 </div>
 @section Scripts{
     <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -140,13 +150,13 @@
 
     </script>
     <script type="text/javascript">
-       
-        setTimeout(function() {
+
+        setTimeout(function () {
             window.location.reload(1);
         }, 60000);
-        //setTimeout( $(document).ready(function play() {
-        //    document.getElementById('myAudio').play();
-        //}
-        //), 60000);
+                //setTimeout( $(document).ready(function play() {
+                //    document.getElementById('myAudio').play();
+                //}
+                //), 60000);
     </script>
 }
