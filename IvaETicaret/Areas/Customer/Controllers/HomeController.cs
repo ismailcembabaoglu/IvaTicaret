@@ -79,6 +79,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
 
             if (storeadress.CountyId > 0 && storeadress.DistrictId > 0)
             {
+
                 return RedirectToAction("StoreList", storeadress);
             }
             else
@@ -89,11 +90,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
         }
         public JsonResult ilcegetir(int p)
         {
+            
             var ilceler = _db.Counties.Where(c => c.CityId == p).Select(c => new
             {
                 Text = c.Name,
                 Value = c.Id
             }).ToList();
+            ilceler.Insert(0, new { Text = "Seçiniz", Value = 0 });
             return Json(ilceler);
         }
         public JsonResult mahallegetir(int p)
@@ -103,6 +106,7 @@ namespace IvaETicaret.Areas.Customer.Controllers
                 Text = c.Name,
                 Value = c.Id
             }).ToList();
+            //mahalleler.Insert(0, new { Text = "Seçiniz", Value = 0 });
             return Json(mahalleler);
         }
         public IActionResult StoreList(StoreAdressVM storeadressvm, int p = 1)
@@ -270,13 +274,13 @@ namespace IvaETicaret.Areas.Customer.Controllers
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
             var user = _db.ApplicationUsers.Where(c => c.Id == claim.Value).FirstOrDefault().StoreId;
             var store = _db.Stores.Where(c => c.Id == user).FirstOrDefault();
-            if (store.IsActive)
+            if (store.StoreIsActive)
             {
-                store.IsActive = false;
+                store.StoreIsActive = false;
             }
             else
             {
-                store.IsActive = true;
+                store.StoreIsActive = true;
             }
             _db.Update(store);
             await _db.SaveChangesAsync();

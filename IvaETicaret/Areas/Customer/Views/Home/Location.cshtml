@@ -52,6 +52,7 @@
                     success: function (data) {
                         console.log(data);
                         $('#Drpilce').empty();
+                     $('#Drpmahalle').empty();
                         for (var i = 0; i < data.length; i++) {
                             $('#Drpilce').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
                         }
@@ -72,6 +73,7 @@
                     success: function (data) {
                         console.log(data);
                         $('#Drpmahalle').empty();
+            
                         for (var i = 0; i < data.length; i++) {
                             $('#Drpmahalle').append("<option value='" + data[i].value + "'>" + data[i].text + "</Option>");
                         }
